@@ -96,14 +96,15 @@
   --transition-speed: 150ms;
   --transition-ease: cubic-bezier(0.25, 1, 0.5, 1);
 
-  /* Content width — matches across Navbar + Hero for visual alignment */
-  --content-max-width: 115rem;
-  --content-width: min(86vw, var(--content-max-width));
+  /* Single source of truth for horizontal margins (px-4 md:px-8 lg:px-10 equivalent) */
+  --page-px: clamp(1rem, 3vw, 2.5rem);
+  --section-px: var(--page-px);
+  --content-max-width: 120rem;
+  --content-width: 100%;
 
-  /* Section padding — fluid, breakpoint-aware */
-  --section-px: clamp(1.5rem, 4vw, 2.5rem);
-  --section-py-top: clamp(5rem, 10vh, 7rem);
-  --section-py-bottom: clamp(5rem, 10vh, 8rem);
+  /* Section vertical padding — fluid, breakpoint-aware */
+  --section-py-top: clamp(4rem, 8vh, 6.5rem);
+  --section-py-bottom: clamp(4.5rem, 9vh, 7.5rem);
 }
 
 

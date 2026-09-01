@@ -263,8 +263,8 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
           <div
             className="w-full h-full flex flex-col justify-between"
             style={{
-              paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
-              paddingRight: 'clamp(1.5rem, 5vw, 4rem)',
+              paddingLeft: 'var(--page-px)',
+              paddingRight: 'var(--page-px)',
               paddingTop: 'clamp(1.25rem, 1.2rem + 0.3vi, 1.75rem)',
               paddingBottom: 'clamp(1.5rem, 3vh, 2.5rem)',
             }}
@@ -280,7 +280,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                 animate={anim}
                 aria-label={NAME}
                 style={{
-                  fontSize: 'clamp(2rem, 8.65vw, 12.8rem)',
+                  fontSize: 'clamp(2.1rem, 9.0vw, 13.5rem)',
                   lineHeight: '0.9',
                   fontFamily: 'Inter, system-ui, sans-serif',
                   fontWeight: 800,

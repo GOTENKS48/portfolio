@@ -41,12 +41,14 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" ref={ref} style={{ background: '#F1F1F1' }}>
+    <section id="contact" ref={ref} style={{ background: '#F1F1F1', paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
       {/* Dark rounded contact card — matches reference exactly */}
       <div
-        className="mx-3 md:mx-6 rounded-3xl overflow-hidden"
+        className="rounded-3xl overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, #181818 0%, #0d0d0d 50%, #141414 100%)',
+          paddingLeft: 'clamp(1rem, 3vw, 2.5rem)',
+          paddingRight: 'clamp(1rem, 3vw, 2.5rem)',
         }}
       >
         <div
