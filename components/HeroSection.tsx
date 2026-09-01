@@ -266,7 +266,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
               paddingLeft: 'var(--page-px)',
               paddingRight: 'var(--page-px)',
               paddingTop: 'clamp(1.25rem, 1.2rem + 0.3vi, 1.75rem)',
-              paddingBottom: 'clamp(1.5rem, 3vh, 2.5rem)',
+              paddingBottom: 'clamp(5.5rem, 10vh, 7.5rem)',
             }}
           >
 

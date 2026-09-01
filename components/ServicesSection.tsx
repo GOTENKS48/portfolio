@@ -34,7 +34,7 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
       style={{
         background: '#111',
         borderRadius: '2rem 2rem 0 0',
-        marginTop: '-2rem',
+        marginTop: 'clamp(-7.5rem, -12vh, -6rem)',
         position: 'relative',
         zIndex: 20,
         ...style,
