@@ -50,7 +50,7 @@ export default function WorksSection() {
     <section
       id="works"
       ref={sectionRef}
-      style={{ background: '#0d0d0d', overflow: 'hidden' }}
+      style={{ background: '#000000', overflow: 'hidden' }}
     >
       {/* Header */}
       <div className="section-pad" ref={headerRef}>

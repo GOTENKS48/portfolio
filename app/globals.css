@@ -85,8 +85,8 @@
   --color-cream-dark: #dbdbd6;
   --color-text-primary: #141414;
   --color-text-muted: #6B645C;
-  --color-dark-bg: #0d0d0d;
-  --color-dark-surface: #111111;
+  --color-dark-bg: #000000;
+  --color-dark-surface: #000000;
   --color-light-text: #f1f0ed;
   --color-dark-muted: #6b6b6b;
   --color-dark-border: rgba(255, 255, 255, 0.08);

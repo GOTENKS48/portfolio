@@ -5,6 +5,10 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
 export default function SmoothScroll() {
   useEffect(() => {
     // 1. Initialize Lenis smooth scroll
@@ -17,6 +21,10 @@ export default function SmoothScroll() {
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     })
+
+    if (typeof window !== 'undefined') {
+      ;(window as any).__lenis = lenis
+    }
 
     // 2. Register ScrollTrigger update with Lenis scroll event
     lenis.on('scroll', ScrollTrigger.update)
@@ -33,6 +41,9 @@ export default function SmoothScroll() {
     // 5. Clean up on unmount
     return () => {
       lenis.destroy()
+      if (typeof window !== 'undefined') {
+        ;(window as any).__lenis = null
+      }
       gsap.ticker.remove(updateRaf)
     }
   }, [])

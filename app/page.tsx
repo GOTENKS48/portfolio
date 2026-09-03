@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, useMotionValue } from 'framer-motion'
+import { motion, useMotionValue, useTransform } from 'framer-motion'
 import Preloader from '@/components/Preloader'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
@@ -11,6 +11,7 @@ import SkillsSection from '@/components/SkillsSection'
 import ContactSection from '@/components/ContactSection'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import SmoothScroll from '@/components/SmoothScroll'
+import NavOverlay from '@/components/NavOverlay'
 
 export default function Home() {
   const [shouldRevealHero, setShouldRevealHero] = useState(false)
@@ -65,6 +66,10 @@ export default function Home() {
   //   DRIFT_PULL : 0.06  — 6% position correction per frame (faster convergence)
   //
   const servicesY = useMotionValue(150)
+  const servicesTransform = useTransform(
+    servicesY,
+    (v) => (Math.abs(v) < 0.05 ? 'none' : `translate3d(0, ${v}px, 0)`)
+  )
 
   useEffect(() => {
     if (vh === 0) return
@@ -147,7 +152,7 @@ export default function Home() {
        * creating Fast→Medium→Slow→Stop motion rather than lerp's constant-slow glide.
        */}
       <ServicesSection style={{
-        y: servicesY,
+        transform: servicesTransform,
         willChange: 'transform',
         backfaceVisibility: 'hidden'
       }} />
@@ -161,6 +166,9 @@ export default function Home() {
       <ScrollReveal>
         <ContactSection />
       </ScrollReveal>
+
+      {/* Floating scroll-triggered navigation overlay & toggle button */}
+      <NavOverlay />
     </main>
   )
 }

@@ -28,7 +28,7 @@ export default function SkillsSection() {
       id="about"
       ref={ref}
       style={{
-        background: '#0d0d0d',
+        background: '#000000',
         position: 'relative',
         zIndex: 10,
       }}

@@ -41,7 +41,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" ref={ref} style={{ background: '#F1F1F1', paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
+    <section id="contact" ref={ref} style={{ background: '#000000', paddingLeft: 'var(--page-px)', paddingRight: 'var(--page-px)' }}>
       {/* Dark rounded contact card — matches reference exactly */}
       <div
         className="rounded-3xl overflow-hidden"
@@ -49,6 +49,7 @@ export default function ContactSection() {
           background: 'linear-gradient(135deg, #181818 0%, #0d0d0d 50%, #141414 100%)',
           paddingLeft: 'clamp(1rem, 3vw, 2.5rem)',
           paddingRight: 'clamp(1rem, 3vw, 2.5rem)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
         }}
       >
         <div
@@ -124,7 +125,7 @@ export default function ContactSection() {
                   onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
                 />
                 <textarea
-                  placeholder="Tell me about your business or project"
+                  placeholder="Tell me about your project"
                   value={form.message}
                   onChange={e => setForm({ ...form, message: e.target.value })}
                   required
@@ -158,7 +159,7 @@ export default function ContactSection() {
         </div>
       </div>
 
-      {/* Footer — cream background, two-column links — matches reference */}
+      {/* Footer — two-column links */}
       <motion.footer
         custom={0.4}
         variants={fadeUp}
@@ -172,7 +173,7 @@ export default function ContactSection() {
             <div>
               <h4
                 className="font-bold text-sm mb-4 pb-3"
-                style={{ color: '#1B1B1B', borderBottom: '1px solid rgba(0,0,0,0.12)' }}
+                style={{ color: '#f1f0ed', borderBottom: '1px solid rgba(255,255,255,0.12)' }}
               >
                 Menu
               </h4>
@@ -186,9 +187,9 @@ export default function ContactSection() {
                         document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' })
                       }}
                       className="text-sm t-150"
-                      style={{ color: '#6b6b6b' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#1B1B1B')}
-                      onMouseLeave={e => (e.currentTarget.style.color = '#6b6b6b')}
+                      style={{ color: '#8A867A' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#8A867A')}
                     >
                       {link.label}
                     </a>
@@ -199,7 +200,7 @@ export default function ContactSection() {
             <div>
               <h4
                 className="font-bold text-sm mb-4 pb-3"
-                style={{ color: '#1B1B1B', borderBottom: '1px solid rgba(0,0,0,0.12)' }}
+                style={{ color: '#f1f0ed', borderBottom: '1px solid rgba(255,255,255,0.12)' }}
               >
                 Socials
               </h4>
@@ -211,9 +212,9 @@ export default function ContactSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm t-150"
-                      style={{ color: '#6b6b6b' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#1B1B1B')}
-                      onMouseLeave={e => (e.currentTarget.style.color = '#6b6b6b')}
+                      style={{ color: '#8A867A' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#FFFFFF')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#8A867A')}
                     >
                       {s.label}
                     </a>
@@ -223,7 +224,7 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <p className="mt-12 text-xs font-mono" style={{ color: 'rgba(0,0,0,0.3)' }}>
+          <p className="mt-12 text-xs font-mono" style={{ color: 'rgba(255,255,255,0.3)' }}>
             © 2026 Jitendra Kushwah. All rights reserved.
           </p>
         </div>
