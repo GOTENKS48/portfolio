@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, useMotionValue, useTransform } from 'framer-motion'
+import { useMotionValue, useTransform } from 'framer-motion'
 import Preloader from '@/components/Preloader'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
@@ -41,30 +41,7 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // ─── Velocity-based glass inertia for "What I Do" ──────────────────────────
-  //
-  // Physics model — fundamentally different from lerp or spring:
-  //
-  //   LERP  : position += (target - position) × factor
-  //           → velocity is proportional to distance → Constant-Slow → Stop
-  //
-  //   THIS  : velocity is tracked independently, decays per frame via friction
-  //           → velocity profile: Fast → Medium → Slow → Very Slow → Stop ✓
-  //
-  // Algorithm (runs every animation frame):
-  //   1. Read scroll delta this frame → compute scroll velocity in Y-space
-  //   2. Inject INJECTION fraction of that velocity into section velocity
-  //      (INJECTION < 1 → section lags during active scrolling)
-  //   3. Apply FRICTION → velocity decays proportionally per frame
-  //   4. Advance position by velocity
-  //   5. Apply DRIFT_PULL → gentle lerp toward natural target
-  //      (prevents unbounded drift without killing momentum)
-  //
-  // Constants (tuned for snappy response):
-  //   FRICTION   : 0.88  — velocity retained per frame (faster decay = snappier stop)
-  //   INJECTION  : 0.06  — 6% of scroll velocity per frame
-  //   DRIFT_PULL : 0.06  — 6% position correction per frame (faster convergence)
-  //
+  // ─── Velocity-based glass inertia for "What I Do" (Hero transition only) ─────
   const servicesY = useMotionValue(150)
   const servicesTransform = useTransform(
     servicesY,
@@ -74,13 +51,13 @@ export default function Home() {
   useEffect(() => {
     if (vh === 0) return
 
-    const FRICTION = 0.88  // velocity multiplier per frame (faster decay = snappier stop)
-    const INJECTION = 0.06  // fraction of scroll velocity injected into vel
-    const DRIFT_PULL = 0.06  // direct position lerp toward natural target (faster convergence)
-    const REST = 0.1  // px — snap threshold when both vel and gap are tiny
+    const FRICTION = 0.88
+    const INJECTION = 0.06
+    const DRIFT_PULL = 0.06
+    const REST = 0.1
 
-    let y = 150              // current extra translateY (px)
-    let vel = 0               // current velocity (px / frame)
+    let y = 150
+    let vel = 0
     let prevSY = window.scrollY
     let animId: number
 
@@ -89,42 +66,40 @@ export default function Home() {
       const scrollDelta = sy - prevSY
       prevSY = sy
 
-      // Natural target: 150px when hero fills viewport, 0 when hero scrolled past
-      const progress = Math.min(1, Math.max(0, sy / vh))
-      const targetY = 150 * (1 - progress)
+      if (sy >= vh) {
+        // Once past hero, clamp firmly to 0 so sticky cards never rebound or jitter
+        if (y !== 0 || vel !== 0) {
+          y = 0
+          vel = 0
+          servicesY.set(0)
+        }
+      } else {
+        // Natural target: 150px when hero fills viewport, 0 when hero scrolled past
+        const progress = Math.min(1, Math.max(0, sy / vh))
+        const targetY = 150 * (1 - progress)
 
-      // ── Step 1: inject scroll velocity ────────────────────────────────────
-      // Converts scroll pixels to Y-space pixels via (150/vh) scale factor.
-      // Negative sign: scrolling down (positive scrollDelta) reduces target Y.
-      vel += (-scrollDelta * (150 / vh)) * INJECTION
+        // Inject velocity only while transitioning through hero
+        vel += (-scrollDelta * (150 / vh)) * INJECTION
+        vel *= FRICTION
+        y += vel
+        y += (targetY - y) * DRIFT_PULL
 
-      // ── Step 2: apply friction ────────────────────────────────────────────
-      // Velocity decays proportionally → Fast→Medium→Slow→Stop profile.
-      // This is the core difference from lerp (which decays position, not vel).
-      vel *= FRICTION
+        if (Math.abs(targetY - y) < REST && Math.abs(vel) < REST) {
+          y = targetY
+          vel = 0
+        }
 
-      // ── Step 3: advance position by velocity ──────────────────────────────
-      y += vel
-
-      // ── Step 4: drift correction ──────────────────────────────────────────
-      // Direct position pull — does NOT pass through velocity, so it cannot
-      // create oscillation. Activates only after velocity has mostly decayed.
-      y += (targetY - y) * DRIFT_PULL
-
-      // ── Step 5: rest snap ─────────────────────────────────────────────────
-      if (Math.abs(targetY - y) < REST && Math.abs(vel) < REST) {
-        y = targetY
-        vel = 0
+        // Clamp y between 0 and 150 — guarantees no negative undershoot (rebounding)
+        y = Math.max(0, Math.min(150, y))
+        servicesY.set(Math.round(y * 100) / 100)
       }
 
-      servicesY.set(Math.round(y * 100) / 100)
       animId = requestAnimationFrame(loop)
     }
 
     animId = requestAnimationFrame(loop)
     return () => cancelAnimationFrame(animId)
   }, [vh, servicesY])
-  // ───────────────────────────────────────────────────────────────────────────
 
   return (
     <main>
@@ -139,22 +114,16 @@ export default function Home() {
         isScrolled={isScrolled}
         showHamburger={showHamburger}
         triggerReveal={shouldRevealHero}
-        servicesY={servicesY}
       />
       <HeroSection
         triggerReveal={shouldRevealHero}
         isScrolled={isScrolled}
       />
 
-      {/*
-       * Pure velocity-based glass inertia — translateY only, no opacity or blur.
-       * servicesY tracks an independent velocity variable that decays with friction,
-       * creating Fast→Medium→Slow→Stop motion rather than lerp's constant-slow glide.
-       */}
       <ServicesSection style={{
         transform: servicesTransform,
         willChange: 'transform',
-        backfaceVisibility: 'hidden'
+        backfaceVisibility: 'hidden',
       }} />
 
       {/* WorksSection contains GSAP scroll pinning, observed independently */}

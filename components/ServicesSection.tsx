@@ -1,8 +1,14 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useInView, MotionStyle } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { services } from '@/lib/data'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -84,6 +90,72 @@ interface ServicesSectionProps {
 export default function ServicesSection({ style }: ServicesSectionProps) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const deckContainerRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (!deckContainerRef.current) return
+
+    let top1 = 0
+    let top3 = 0
+    let step = 0
+    let wasPushed = false
+
+    const updateMetrics = () => {
+      const card1 = cardRefs.current[0]
+      const card3 = cardRefs.current[2]
+      if (!card1 || !card3) return
+      top1 = parseFloat(window.getComputedStyle(card1).top) || 0
+      top3 = parseFloat(window.getComputedStyle(card3).top) || 0
+      step = (top3 - top1) / 2
+    }
+
+    updateMetrics()
+
+    const onScrollUpdate = () => {
+      const card1 = cardRefs.current[0]
+      const card2 = cardRefs.current[1]
+      const card3 = cardRefs.current[2]
+      if (!card1 || !card2 || !card3 || top3 === 0) return
+
+      const rect3 = card3.getBoundingClientRect()
+      const p = top3 - rect3.top
+
+      if (p > 0.5) {
+        wasPushed = true
+        const y1 = -Math.min(2 * step, p)
+        const y2 = -Math.min(step, p)
+        card1.style.transform = `translate3d(0, ${y1}px, 0)`
+        card2.style.transform = `translate3d(0, ${y2}px, 0)`
+      } else if (wasPushed) {
+        card1.style.transform = ''
+        card2.style.transform = ''
+        wasPushed = false
+      }
+    }
+
+    const st = ScrollTrigger.create({
+      trigger: deckContainerRef.current,
+      start: 'top bottom',
+      end: 'bottom top',
+      onUpdate: onScrollUpdate,
+      onRefresh: () => {
+        updateMetrics()
+        onScrollUpdate()
+      },
+    })
+
+    window.addEventListener('resize', updateMetrics, { passive: true })
+
+    return () => {
+      st.kill()
+      window.removeEventListener('resize', updateMetrics)
+      const card1 = cardRefs.current[0]
+      const card2 = cardRefs.current[1]
+      if (card1) card1.style.transform = ''
+      if (card2) card2.style.transform = ''
+    }
+  }, [])
 
   return (
     <motion.section
@@ -192,9 +264,16 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
         </div>
 
         {/* Service items — sticky stacking card deck */}
-        <div className="relative" style={{ paddingBottom: 'clamp(12rem, 25vh, 20rem)' }}>
+        <div
+          ref={deckContainerRef}
+          className="relative"
+          style={{ paddingBottom: 'clamp(2rem, 4vh, 3.5rem)' }}
+        >
           {services.map((service, i) => (
             <motion.div
+              ref={(el) => {
+                cardRefs.current[i] = el as HTMLDivElement | null
+              }}
               key={service.number}
               custom={0.15 + i * 0.15}
               variants={cardFade}
@@ -202,18 +281,17 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
               animate={inView ? 'visible' : 'hidden'}
               className="sticky"
               style={{
-                top: `calc(clamp(5rem, 8vh, 6rem) + ${i} * clamp(2.8rem, 5vh, 3.5rem))`,
+                top: `calc(clamp(4.5rem, 7vh, 5.5rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem))`,
                 zIndex: i + 1,
                 background: '#000000',
-                boxShadow: i > 0 ? '0 -16px 36px rgba(0, 0, 0, 0.8)' : 'none',
               }}
             >
               <ServiceItem service={service} index={i} />
             </motion.div>
           ))}
 
-          {/* Dedicated scroll runway spacer so Card (03) has full room to stick and pin before scrolling away */}
-          <div style={{ height: 'clamp(30rem, 75vh, 50rem)' }} aria-hidden="true" />
+          {/* Calibrated scroll runway so Card (03) stacks smoothly then cards cleanly transition into WorksSection */}
+          <div style={{ height: 'clamp(8rem, 14vh, 12rem)' }} aria-hidden="true" />
         </div>
       </div>
     </motion.section>
@@ -225,21 +303,21 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
 
   return (
     <div
-      className="py-10 md:py-14 grid grid-cols-1 md:grid-cols-[minmax(120px,160px)_1fr] gap-6 md:gap-12"
+      className="pt-1 sm:pt-1.5 md:pt-2 pb-10 sm:pb-12 md:pb-14 grid grid-cols-1 md:grid-cols-[minmax(120px,160px)_1fr] gap-3 sm:gap-4 md:gap-12 items-start"
       style={{
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid rgba(255,255,255,0.12)',
         background: '#000000',
       }}
     >
       {/* Number — large, left column */}
       <div className="flex-shrink-0">
         <span
-          className="font-black"
+          className="font-black block"
           style={{
-            fontSize: 'clamp(2rem, 5vw, 4rem)',
-            color: 'rgba(241,240,237,0.25)',
+            fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
+            color: 'rgba(241,240,237,0.3)',
             letterSpacing: '-0.04em',
-            lineHeight: '1',
+            lineHeight: '1.1',
             fontFamily: 'monospace',
           }}
         >
@@ -255,6 +333,7 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
             fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
             color: '#f1f0ed',
             letterSpacing: '-0.03em',
+            lineHeight: '1.1',
           }}
         >
           {service.title}

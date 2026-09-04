@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 import NavOverlay from './NavOverlay'
 
 const navLinks = [
@@ -27,10 +27,9 @@ interface NavbarProps {
   isScrolled?: boolean
   showHamburger?: boolean
   triggerReveal?: boolean
-  servicesY?: MotionValue<number>
 }
 
-export default function Navbar({ isScrolled = false, showHamburger = false, triggerReveal = false, servicesY }: NavbarProps) {
+export default function Navbar({ isScrolled = false, showHamburger = false, triggerReveal = false }: NavbarProps) {
   const { scrollY } = useScroll()
 
   // ── Scroll-driven header visibility ────────────────────────────────────────
