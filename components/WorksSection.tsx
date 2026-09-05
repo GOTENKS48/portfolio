@@ -100,8 +100,8 @@ export default function WorksSection() {
         } else {
           gsap.to(unitDigitReelRef.current, {
             y: -targetIdx * digitH,
-            duration: 0.45,
-            ease: 'power2.out',
+            duration: 1.35,
+            ease: 'power3.out',
             force3D: true,
             overwrite: 'auto',
           })
