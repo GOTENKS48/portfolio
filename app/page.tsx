@@ -42,7 +42,7 @@ export default function Home() {
   }, [])
 
   // ─── Velocity-based glass inertia for "What I Do" (Hero transition only) ─────
-  const servicesY = useMotionValue(150)
+  const servicesY = useMotionValue(0)
   const servicesTransform = useTransform(
     servicesY,
     (v) => (Math.abs(v) < 0.05 ? 'none' : `translate3d(0, ${v}px, 0)`)
@@ -56,9 +56,13 @@ export default function Home() {
     const DRIFT_PULL = 0.06
     const REST = 0.1
 
-    let y = 150
+    const initialSY = window.scrollY
+    const initialY = initialSY >= vh ? 0 : Math.max(0, Math.min(150, 150 * (1 - initialSY / vh)))
+    servicesY.set(initialY)
+
+    let y = initialY
     let vel = 0
-    let prevSY = window.scrollY
+    let prevSY = initialSY
     let animId: number
 
     const loop = () => {

@@ -28,7 +28,7 @@ export const projects: Project[] = [
     Features a React dashboard with live WebSocket data feeds, geolocation threat maps, and ML-based anomaly detection.`,
     tech: ['Node.js', 'Apache Kafka', 'React', 'PostgreSQL', 'Docker', 'Redis', 'Python', 'WebSocket'],
     image: '/images/bharat-sentinel.png',
-    link: '#',
+    link: 'https://example.com/project-1',
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ export const projects: Project[] = [
     HVAC/lighting adjustments, reducing energy usage by 34%.`,
     tech: ['Node.js', 'MQTT', 'InfluxDB', 'Grafana', 'Python', 'React', 'PostgreSQL', 'Docker'],
     image: '/images/smart-building.png',
-    link: '#',
+    link: 'https://example.com/project-2',
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     design language inspired by high-end agency websites. Zero component library boilerplate.`,
     tech: ['Next.js', 'Framer Motion', 'GSAP', 'TypeScript', 'TailwindCSS'],
     image: '/images/portfolio-v2.png',
-    link: '#',
+    link: 'https://example.com/project-3',
   },
   {
     id: 4,
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     binary tree operations, and dynamic programming step-through. Built for CS students and interview preparation.`,
     tech: ['React', 'TypeScript', 'D3.js', 'Tailwind CSS', 'Framer Motion'],
     image: '/images/algo-visualizer.png',
-    link: '#',
+    link: 'https://example.com/project-4',
   },
   {
     id: 5,
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     REST API with S3-compatible interface, CLI client, and React web UI.`,
     tech: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'Redis', 'Docker', 'AWS S3'],
     image: '/images/cloud-fs.png',
-    link: '#',
+    link: 'https://example.com/project-5',
   },
 ]
 

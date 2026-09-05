@@ -134,6 +134,8 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
       }
     }
 
+    onScrollUpdate()
+
     const st = ScrollTrigger.create({
       trigger: deckContainerRef.current,
       start: 'top bottom',
