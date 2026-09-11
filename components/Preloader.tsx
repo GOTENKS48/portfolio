@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PreloaderProps {
@@ -10,7 +10,7 @@ interface PreloaderProps {
 
 export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
   const [isMounted, setIsMounted] = useState(true)
-  const [height, setHeight] = useState(1000)
+  const [height, setHeight] = useState(4000)
 
   // Store callbacks in refs so the animation effect never re-runs due to
   // new inline arrow references created by parent re-renders (e.g. from scroll).
@@ -22,6 +22,12 @@ export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
   // This effect runs exactly once on mount — empty dependency array.
   // Callbacks are accessed via refs, so scroll-triggered re-renders in the
   // parent cannot restart the effect or skip the animation.
+  // Set correct height BEFORE the browser paints the first frame,
+  // so the curtain covers the full viewport on every resolution.
+  useLayoutEffect(() => {
+    setHeight(window.innerHeight + 375)
+  }, [])
+
   useEffect(() => {
     // Bypass preloader entirely on page reload / scroll restoration
     if (
@@ -34,8 +40,6 @@ export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
       setIsMounted(false)
       return
     }
-
-    setHeight(window.innerHeight + 300)
 
     // Curtain sweep: duration 3.5s, ease [0.16,1,0.3,1].
     // This ease is heavily front-loaded — the curtain rushes up in the first ~600ms,

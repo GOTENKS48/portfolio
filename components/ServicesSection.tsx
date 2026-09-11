@@ -340,7 +340,7 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
         >
           {service.title}
         </h3>
-        <p className="text-sm leading-relaxed mb-8" style={{ color: '#6b6b6b', maxWidth: '520px' }}>
+        <p className="text-sm leading-relaxed mb-8" style={{ color: '#6b6b6b', maxWidth: '650px' }}>
           {service.description}
         </p>
 
@@ -354,7 +354,7 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
             >
               <span
                 className="flex-shrink-0 text-xs"
-                style={{ color: '#4a4a4a', fontFamily: 'monospace', minWidth: '24px' }}
+                style={{ color: '#4a4a4a', fontFamily: 'monospace', minWidth: '30px' }}
               >
                 0{i + 1}
               </span>

@@ -295,7 +295,7 @@ export default function WorksSection() {
         {/* Subrow: (PROJECTS) matching project card left edge, with text positioned close alongside */}
         <div
           className="mt-6 sm:mt-8 ml-auto flex flex-col sm:flex-row sm:items-baseline gap-6 sm:gap-10 lg:gap-12"
-          style={{ width: 'min(840px, 68vw)' }}
+          style={{ width: 'min(1050px, 68vw)' }}
         >
           <div style={{ overflow: 'hidden' }} className="flex-shrink-0 px-0.5">
             <motion.span
@@ -325,7 +325,7 @@ export default function WorksSection() {
         <div
           className="sticky flex-shrink-0 select-none z-20 self-start"
           style={{
-            top: 'clamp(12px, 2vh, 24px)', // Closer to top
+            top: 'clamp(15px, 2vh, 30px)', // Closer to top
             width: 'auto',
           }}
         >
@@ -395,7 +395,7 @@ export default function WorksSection() {
         <div
           className="flex flex-col gap-28 sm:gap-36 lg:gap-44"
           style={{
-            width: 'min(840px, 68vw)',
+            width: 'min(1050px, 68vw)',
           }}
         >
           {projects.map((project, idx) => (
@@ -424,7 +424,7 @@ export default function WorksSection() {
 function ProjectCard({ project }: { project: typeof projects[0] }) {
   const infoRowRef = useRef<HTMLDivElement>(null)
   const isInfoInView = useInView(infoRowRef, {
-    margin: '0px 0px -30px 0px',
+    margin: '0px 0px -37.5px 0px',
     amount: 'some',
   })
 
@@ -471,7 +471,7 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       <div
         className="relative w-full rounded-2xl overflow-hidden shadow-2xl"
         style={{
-          height: 'clamp(600px, 75vw, 920px)',
+          height: 'clamp(750px, 75vw, 1150px)',
           background: '#1a1a1a',
         }}
       >
@@ -480,7 +480,7 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
           alt={project.title}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          sizes="(max-width: 768px) 90vw, 840px"
+          sizes="(max-width: 768px) 90vw, 1050px"
           priority={project.id <= 2}
         />
       </div>

@@ -37,7 +37,7 @@ export default function NavOverlay() {
       if (!target) return
 
       const rect = target.getBoundingClientRect()
-      if (rect.top <= 80) {
+      if (rect.top <= 100) {
         setIsButtonVisible(true)
       } else {
         setIsButtonVisible(false)
@@ -169,8 +169,8 @@ export default function NavOverlay() {
         aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
         className="fixed top-8 right-8 z-[110] flex items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8A867A] cursor-pointer"
         style={{
-          width: '50px',
-          height: '50px',
+          width: '62.5px',
+          height: '62.5px',
           top: '2rem',
           right: '2rem',
           backgroundColor: '#e8e8e3',
@@ -186,22 +186,22 @@ export default function NavOverlay() {
         <div className="relative w-7 h-7 flex items-center justify-center pointer-events-none">
           {/* Top line */}
           <span
-            className="absolute block h-[1.5px] w-[24px] bg-[#141414] rounded-full"
+            className="absolute block h-[2px] w-[30px] bg-[#141414] rounded-full"
             style={{
               transform: isOpen
                 ? 'translateY(0px) rotate(45deg)'
-                : 'translateY(-3.5px) rotate(0deg)',
+                : 'translateY(-4.5px) rotate(0deg)',
               transition:
                 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease',
             }}
           />
           {/* Bottom line */}
           <span
-            className="absolute block h-[1.5px] w-[24px] bg-[#141414] rounded-full"
+            className="absolute block h-[2px] w-[30px] bg-[#141414] rounded-full"
             style={{
               transform: isOpen
                 ? 'translateY(0px) rotate(-45deg)'
-                : 'translateY(3.5px) rotate(0deg)',
+                : 'translateY(4.5px) rotate(0deg)',
               transition:
                 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease',
             }}
@@ -257,10 +257,10 @@ export default function NavOverlay() {
                 <div
                   className="absolute pointer-events-none z-[1]"
                   style={{
-                    width: 'clamp(348px, 40.6vw, 609px)',
-                    height: 'clamp(348px, 40.6vw, 609px)',
-                    top: 'clamp(-130px, -13vw, -58px)',
-                    right: 'clamp(-319px, -32vw, -188px)',
+                    width: 'clamp(435px, 40.6vw, 761px)',
+                    height: 'clamp(435px, 40.6vw, 761px)',
+                    top: 'clamp(-162.5px, -13vw, -72.5px)',
+                    right: 'clamp(-399px, -32vw, -235px)',
                     borderRadius: '50%',
                     background: '#22221F',
                     transform: 'translateZ(0)',
@@ -272,10 +272,10 @@ export default function NavOverlay() {
                 <div
                   className="absolute pointer-events-none z-[2]"
                   style={{
-                    width: 'clamp(522px, 63.8vw, 942px)',
-                    height: 'clamp(522px, 63.8vw, 942px)',
-                    top: 'clamp(-551px, -58vw, -377px)',
-                    right: 'clamp(-609px, -65vw, -420px)',
+                    width: 'clamp(652.5px, 63.8vw, 1177.5px)',
+                    height: 'clamp(652.5px, 63.8vw, 1177.5px)',
+                    top: 'clamp(-689px, -58vw, -471px)',
+                    right: 'clamp(-761px, -65vw, -525px)',
                     borderRadius: '58% 42% 62% 38% / 60% 40% 62% 38%',
                     background: '#3A3A37',
                     transform: 'translateZ(0)',
@@ -322,7 +322,7 @@ export default function NavOverlay() {
 
                             {/* Thin Cream Underline Expanding Left-to-Right on Hover */}
                             <span
-                              className="block w-full h-[1.5px] bg-[#e8e8e3] origin-left transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] scale-x-0 group-hover:scale-x-100 mt-1"
+                              className="block w-full h-[2px] bg-[#e8e8e3] origin-left transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] scale-x-0 group-hover:scale-x-100 mt-1"
                             />
                           </button>
                         </div>
@@ -342,7 +342,7 @@ export default function NavOverlay() {
                     {/* Email Section with Roll Hover */}
                     <div className="flex flex-col gap-1">
                       <span
-                        className="text-[11px] uppercase tracking-wider font-mono"
+                        className="text-[13.75px] uppercase tracking-wider font-mono"
                         style={{ color: '#8A867A' }}
                       >
                         EMAIL ADDRESS

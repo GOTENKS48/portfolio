@@ -344,7 +344,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
 
               {/* ── Left Column: Arrow at top edge, Bio & Contact centered in middle of image height ── */}
               <div
-                className="hero-left relative flex flex-col justify-center order-2 md:order-none md:h-[clamp(260px,min(28vw,53.33vh),393.33px)]"
+                className="hero-left relative flex flex-col justify-center order-2 md:order-none md:h-[clamp(325px,min(28vw,53.33vh),491.66px)]"
                 style={{ gap: 'clamp(1rem, 2vh, 1.75rem)' }}
               >
                 {/* ↘ Arrow icon — top-aligned flush with hero image top edge */}
@@ -356,8 +356,8 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                 >
                   <svg
                     style={{
-                      width: 'clamp(24px, 2.3vw, 36px)',
-                      height: 'clamp(24px, 2.3vw, 36px)',
+                      width: 'clamp(30px, 2.3vw, 45px)',
+                      height: 'clamp(30px, 2.3vw, 45px)',
                       display: 'block',
                     }}
                     viewBox="6.9 6.9 20.3 20.3"
@@ -384,7 +384,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                         color: '#6B645C',
                         lineHeight: 1.6,
                         letterSpacing: '-0.01em',
-                        maxWidth: 'clamp(280px, 26vw, 420px)',
+                        maxWidth: 'clamp(350px, 26vw, 525px)',
                       }}
                     >
                       I build fast, modern systems and interfaces that help ideas scale —
@@ -420,8 +420,8 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: 'clamp(145px, 12vw, 190px)',
-                          height: 'clamp(52px, 4.4vw, 68px)',
+                          width: 'clamp(181px, 12vw, 238px)',
+                          height: 'clamp(65px, 4.4vw, 85px)',
                           borderRadius: '999px',
                           background: '#393632',
                           color: '#ffffff',
@@ -455,22 +455,22 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                         <span className="relative z-10 block overflow-hidden h-[1.3em]">
                           {/* Base Layer */}
                           <motion.span
-                            className="flex items-center gap-[clamp(6px, 0.6vw, 8px)]"
+                            className="flex items-center gap-[clamp(8px,0.6vw,10px)]"
                             style={{ y: textBaseY }}
                           >
                             <span>CONTACT</span>
-                            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                            <svg width="19" height="19" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                               <path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </motion.span>
 
                           {/* Hover Layer */}
                           <motion.span
-                            className="absolute top-0 left-0 flex items-center gap-[clamp(6px, 0.6vw, 8px)]"
+                            className="absolute top-0 left-0 flex items-center gap-[clamp(8px,0.6vw,10px)]"
                             style={{ y: textHoverY }}
                           >
                             <span>CONTACT</span>
-                            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                            <svg width="19" height="19" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                               <path d="M2 12L12 2M12 2H5M12 2V9" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </motion.span>
@@ -493,7 +493,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                   animate={anim}
                   className="relative rounded-2xl overflow-hidden border border-black/[0.06]"
                   style={{
-                    width: 'clamp(195px, min(21vw, 40vh), 295px)',
+                    width: 'clamp(244px, min(21vw, 40vh), 369px)',
                     aspectRatio: '3 / 4',
                   }}
                 >
@@ -530,7 +530,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                       fontWeight: 500,
                       letterSpacing: '0.02em',
                       color: '#6B645C',
-                      marginBottom: 'clamp(6px, 0.6vw, 10px)',
+                      marginBottom: 'clamp(8px, 0.6vw, 13px)',
                       textTransform: 'uppercase',
                       textAlign: 'right',
                     }}

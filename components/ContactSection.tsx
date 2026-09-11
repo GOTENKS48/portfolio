@@ -28,7 +28,7 @@ const socialLinks = [
 
 export default function ContactSection() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const inView = useInView(ref, { once: true, margin: '-100px' })
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
   const [mounted, setMounted] = useState(false)
@@ -256,7 +256,7 @@ export default function ContactSection() {
         <div className="content-width">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-x-0 w-full">
             {/* Left: Menu — underline increases till Socials */}
-            <div className="w-full max-w-[200px] md:max-w-none md:pr-10">
+            <div className="w-full max-w-[250px] md:max-w-none md:pr-10">
               <h4
                 className="font-bold text-sm mb-4 pb-3"
                 style={{
@@ -266,7 +266,7 @@ export default function ContactSection() {
               >
                 Menu
               </h4>
-              <ul className="space-y-2.5 max-w-[200px]">
+              <ul className="space-y-2.5 max-w-[250px]">
                 {menuLinks.map((link) => (
                   <li key={link.label}>
                     <a
@@ -297,7 +297,7 @@ export default function ContactSection() {
             </div>
 
             {/* Middle: Socials — starting point is in the middle of the contact card */}
-            <div className="w-full max-w-[200px]">
+            <div className="w-full max-w-[250px]">
               <h4
                 className="font-bold text-sm mb-4 pb-3"
                 style={{
@@ -342,7 +342,7 @@ export default function ContactSection() {
             {/* In between at the bottom: Local Time — stacked on top of actual time */}
             <div className="flex flex-col items-center justify-center gap-0.5 text-center font-mono order-1 md:order-2">
               <span
-                className="text-[10px] uppercase tracking-wider"
+                className="text-[12.5px] uppercase tracking-wider"
                 style={{ color: 'rgba(20, 20, 20, 0.5)' }}
               >
                 LOCAL TIME

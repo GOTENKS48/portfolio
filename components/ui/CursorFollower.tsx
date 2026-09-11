@@ -129,8 +129,8 @@ export function CursorFollowerElement({
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible
-          ? 'translate(-6px, -6px) scale(1)'
-          : 'translate(-6px, -6px) scale(0.6)',
+          ? 'translate(-7.5px, -7.5px) scale(1)'
+          : 'translate(-7.5px, -7.5px) scale(0.6)',
       }}
     >
       <svg

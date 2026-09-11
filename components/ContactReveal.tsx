@@ -29,11 +29,11 @@ export default function ContactReveal({ children }: ContactRevealProps) {
       const isDesktop = vw >= 1024
       const isTablet = vw >= 768 && vw < 1024
       return {
-        overlap: isDesktop ? 335 : isTablet ? 280 : 230,
-        gap: isDesktop ? 36 : isTablet ? 32 : 28,
+        overlap: isDesktop ? 419 : isTablet ? 350 : 288,
+        gap: isDesktop ? 45 : isTablet ? 40 : 35,
       }
     }
-    return { overlap: 335, gap: 36 }
+    return { overlap: 419, gap: 45 }
   })
 
   useEffect(() => {
@@ -52,13 +52,13 @@ export default function ContactReveal({ children }: ContactRevealProps) {
         const motionRect = motionEl.getBoundingClientRect()
         const h2Rect = h2.getBoundingClientRect()
         // Line 1 ("LET'S MAKE") bottom divider + radius compensation + extra tuck
-        const lineDivider = h2Rect.top + h2Rect.height * 0.52 + 135
-        measuredOverlap = Math.round(Math.max(200, lineDivider - motionRect.top))
+        const lineDivider = h2Rect.top + h2Rect.height * 0.52 + 169
+        measuredOverlap = Math.round(Math.max(250, lineDivider - motionRect.top))
       } else {
-        measuredOverlap = Math.round(Math.min(Math.max(240, vw * 0.25), 420))
+        measuredOverlap = Math.round(Math.min(Math.max(300, vw * 0.25), 525))
       }
 
-      const measuredGap = Math.round(Math.min(Math.max(28, vw * 0.025), 40))
+      const measuredGap = Math.round(Math.min(Math.max(35, vw * 0.025), 50))
       setMetrics((prev) => {
         if (Math.abs(prev.overlap - measuredOverlap) > 4 || Math.abs(prev.gap - measuredGap) > 2) {
           return { overlap: measuredOverlap, gap: measuredGap }

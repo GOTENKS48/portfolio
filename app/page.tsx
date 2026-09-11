@@ -46,7 +46,7 @@ export default function Home() {
     const handleScroll = () => {
       const sy = window.scrollY
       setIsScrolled(sy > 5)
-      setShowHamburger(sy > 80)
+      setShowHamburger(sy > 100)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -70,7 +70,7 @@ export default function Home() {
 
     const savedScroll = typeof window !== 'undefined' ? parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10) : 0
     const initialSY = window.scrollY || savedScroll
-    const initialY = initialSY >= vh ? 0 : Math.max(0, Math.min(150, 150 * (1 - initialSY / vh)))
+    const initialY = initialSY >= vh ? 0 : Math.max(0, Math.min(187.5, 187.5 * (1 - initialSY / vh)))
     servicesY.set(initialY)
 
     let y = initialY
@@ -91,12 +91,12 @@ export default function Home() {
           servicesY.set(0)
         }
       } else {
-        // Natural target: 150px when hero fills viewport, 0 when hero scrolled past
+        // Natural target: 187.5px when hero fills viewport, 0 when hero scrolled past
         const progress = Math.min(1, Math.max(0, sy / vh))
-        const targetY = 150 * (1 - progress)
+        const targetY = 187.5 * (1 - progress)
 
         // Inject velocity only while transitioning through hero
-        vel += (-scrollDelta * (150 / vh)) * INJECTION
+        vel += (-scrollDelta * (187.5 / vh)) * INJECTION
         vel *= FRICTION
         y += vel
         y += (targetY - y) * DRIFT_PULL
@@ -106,8 +106,8 @@ export default function Home() {
           vel = 0
         }
 
-        // Clamp y between 0 and 150 — guarantees no negative undershoot (rebounding)
-        y = Math.max(0, Math.min(150, y))
+        // Clamp y between 0 and 187.5 — guarantees no negative undershoot (rebounding)
+        y = Math.max(0, Math.min(187.5, y))
         servicesY.set(Math.round(y * 100) / 100)
       }
 

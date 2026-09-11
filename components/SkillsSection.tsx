@@ -183,7 +183,7 @@ export default function SkillsSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const skillsHeadingRef = useRef<HTMLHeadingElement>(null)
-  const inView = useInView(sectionRef, { once: true, margin: '0px 0px -40px 0px' })
+  const inView = useInView(sectionRef, { once: true, margin: '0px 0px -50px 0px' })
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -199,7 +199,7 @@ export default function SkillsSection() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: skillsHeading,
-        start: 'top 100px',
+        start: 'top 125px',
         endTrigger: section,
         end: 'bottom top',
         scrub: true,
@@ -367,9 +367,9 @@ export default function SkillsSection() {
           {/* Left Column: Narrow Image */}
           <div className="w-full flex justify-start">
             <div
-              className="relative rounded-2xl overflow-hidden w-full max-w-[290px] sm:max-w-[320px] mx-auto lg:mx-0 flex-shrink-0"
+              className="relative rounded-2xl overflow-hidden w-full max-w-[362px] sm:max-w-[400px] mx-auto lg:mx-0 flex-shrink-0"
               style={{
-                height: '370px',
+                height: '462.5px',
                 background: '#1a1a1a',
               }}
             >
@@ -378,7 +378,7 @@ export default function SkillsSection() {
                 alt="Jitendra Kumar"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                sizes="(max-width: 1024px) 290px, 320px"
+                sizes="(max-width: 1024px) 362px, 400px"
               />
             </div>
           </div>
@@ -411,7 +411,7 @@ export default function SkillsSection() {
               </div>
 
               {/* Right: paragraph matching skill elements font size (text-sm), narrowed */}
-              <div className="space-y-3 max-w-[420px]">
+              <div className="space-y-3 max-w-[525px]">
                 <p
                   className="text-sm font-normal leading-relaxed"
                   style={{ color: '#a1a1a1' }}

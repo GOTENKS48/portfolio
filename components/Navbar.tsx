@@ -64,7 +64,7 @@ export default function Navbar({ isScrolled = false, showHamburger = false, trig
         className="fixed left-0 right-0 z-40 flex items-center"
         style={{
           top: 'clamp(1.25rem, 1.2rem + 0.3vi, 1.75rem)',
-          height: 'clamp(52px, 4.5vh, 60px)',
+          height: 'clamp(65px, 4.5vh, 75px)',
           paddingLeft: 'var(--page-px)',
           paddingRight: 'var(--page-px)',
           background: headerBg,
