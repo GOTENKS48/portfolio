@@ -38,8 +38,37 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if ('scrollRestoration' in history) {
+                  history.scrollRestoration = 'manual';
+                }
+                var sy = parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10);
+                if (sy > 50) {
+                  document.documentElement.classList.add('is-restoring-scroll');
+                }
+              } catch(e) {}
+            `,
+          }}
+        />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var sy = parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10);
+                if (sy > 0) {
+                  window.scrollTo(0, sy);
+                }
+              } catch(e) {}
+            `,
+          }}
+        />
+      </body>
     </html>
   )
 }

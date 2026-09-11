@@ -9,13 +9,25 @@ import ServicesSection from '@/components/ServicesSection'
 import WorksSection from '@/components/WorksSection'
 import SkillsSection from '@/components/SkillsSection'
 import ContactSection from '@/components/ContactSection'
-import ScrollReveal from '@/components/ui/ScrollReveal'
+import ContactReveal from '@/components/ContactReveal'
 import SmoothScroll from '@/components/SmoothScroll'
 import NavOverlay from '@/components/NavOverlay'
 
 export default function Home() {
   const [shouldRevealHero, setShouldRevealHero] = useState(false)
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false)
+
+  useEffect(() => {
+    const isRestoring =
+      document.documentElement.classList.contains('is-restoring-scroll') ||
+      parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10) > 50
+
+    if (isRestoring) {
+      setIsPreloaderComplete(true)
+      setShouldRevealHero(true)
+      document.documentElement.classList.remove('is-restoring-scroll')
+    }
+  }, [])
 
   const [isScrolled, setIsScrolled] = useState(false)
   const [showHamburger, setShowHamburger] = useState(false)
@@ -56,7 +68,8 @@ export default function Home() {
     const DRIFT_PULL = 0.06
     const REST = 0.1
 
-    const initialSY = window.scrollY
+    const savedScroll = typeof window !== 'undefined' ? parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10) : 0
+    const initialSY = window.scrollY || savedScroll
     const initialY = initialSY >= vh ? 0 : Math.max(0, Math.min(150, 150 * (1 - initialSY / vh)))
     servicesY.set(initialY)
 
@@ -133,12 +146,11 @@ export default function Home() {
       {/* WorksSection contains GSAP scroll pinning, observed independently */}
       <WorksSection />
 
-      <ScrollReveal>
-        <SkillsSection />
-      </ScrollReveal>
-      <ScrollReveal>
+      <SkillsSection />
+
+      <ContactReveal>
         <ContactSection />
-      </ScrollReveal>
+      </ContactReveal>
 
       {/* Floating scroll-triggered navigation overlay & toggle button */}
       <NavOverlay />

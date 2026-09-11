@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { motion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -68,8 +68,78 @@ const badgeTextVariants = {
   },
 }
 
+// ─── Scramble Text Animation Hook ──────────────────────────────────────────
+const SCRAMBLE_GLYPHS = 'ABCDEF0123456789!<>-_\\/[]{}—=+*^?#~'
+
+function useScrambleText(
+  text: string,
+  duration: number = 1000,
+  scrambleBurst: number = 240
+) {
+  const [displayText, setDisplayText] = useState(text)
+  const animFrameRef = useRef<number | null>(null)
+
+  const scramble = useCallback(() => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current)
+    }
+
+    const startTime = performance.now()
+
+    const update = (now: number) => {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+
+      // Initial burst: all characters rapidly scramble at full speed before resolving begins
+      let settledCount = 0
+      if (elapsed > scrambleBurst) {
+        const resolveElapsed = elapsed - scrambleBurst
+        const resolveDuration = Math.max(duration - scrambleBurst, 1)
+        const resolveProgress = Math.min(resolveElapsed / resolveDuration, 1)
+        const easedProgress = 1 - Math.pow(1 - resolveProgress, 2.2)
+        settledCount = Math.floor(easedProgress * text.length)
+      }
+
+      let result = ''
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i]
+        if (char === ' ' || char === '/') {
+          result += char
+        } else if (i < settledCount) {
+          result += char
+        } else {
+          result +=
+            SCRAMBLE_GLYPHS[
+              Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)
+            ]
+        }
+      }
+
+      setDisplayText(result)
+
+      if (progress < 1) {
+        animFrameRef.current = requestAnimationFrame(update)
+      } else {
+        setDisplayText(text)
+      }
+    }
+
+    animFrameRef.current = requestAnimationFrame(update)
+  }, [text, duration, scrambleBurst])
+
+  useEffect(() => {
+    setDisplayText(text)
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+    }
+  }, [text])
+
+  return { displayText, scramble }
+}
+
 export default function WorksSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [activeIdx, setActiveIdx] = useState(0)
 
   // Digit reel refs for the stationary sticky number that rolls up only digit-wise
   const unitDigitBoxRef = useRef<HTMLDivElement>(null)
@@ -77,6 +147,9 @@ export default function WorksSection() {
 
   // Project card refs for tracking scroll position on the whole long page
   const projectCardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const { displayText: displayProjectsBadge, scramble: scrambleProjectsBadge } =
+    useScrambleText('(PROJECTS)', 850, 200)
 
   useEffect(() => {
     if (!unitDigitBoxRef.current || !unitDigitReelRef.current) return
@@ -227,10 +300,11 @@ export default function WorksSection() {
           <div style={{ overflow: 'hidden' }} className="flex-shrink-0 px-0.5">
             <motion.span
               variants={badgeTextVariants}
-              className="text-xs tracking-widest uppercase block"
+              onMouseEnter={scrambleProjectsBadge}
+              className="text-xs tracking-widest uppercase block cursor-pointer select-none"
               style={{ color: '#6b6b6b', fontFamily: 'monospace' }}
             >
-              (PROJECTS)
+              {displayProjectsBadge}
             </motion.span>
           </div>
           <div style={{ overflow: 'hidden' }} className="max-w-md">
@@ -322,7 +396,6 @@ export default function WorksSection() {
           className="flex flex-col gap-28 sm:gap-36 lg:gap-44"
           style={{
             width: 'min(840px, 68vw)',
-            paddingBottom: 'var(--section-py-bottom)',
           }}
         >
           {projects.map((project, idx) => (
@@ -339,6 +412,9 @@ export default function WorksSection() {
         </div>
       </div>
 
+      {/* Breathing space before Skills section, outside the sticky container so 05 unpins flush with project 05 */}
+      <div style={{ height: 'clamp(8rem, 16vh, 14rem)' }} aria-hidden="true" />
+
       {/* View follower that stays stationary during scroll and tracks cards */}
       <CursorFollowerElement label="View" />
     </section>
@@ -346,6 +422,33 @@ export default function WorksSection() {
 }
 
 function ProjectCard({ project }: { project: typeof projects[0] }) {
+  const infoRowRef = useRef<HTMLDivElement>(null)
+  const isInfoInView = useInView(infoRowRef, {
+    margin: '0px 0px -30px 0px',
+    amount: 'some',
+  })
+
+  const { displayText: displayTitle, scramble: scrambleTitle } = useScrambleText(
+    project.title,
+    1050,
+    250
+  )
+  const { displayText: displaySubtitle, scramble: scrambleSubtitle } =
+    useScrambleText(project.subtitle, 850, 200)
+
+  const triggerScramble = useCallback(() => {
+    scrambleTitle()
+    scrambleSubtitle()
+  }, [scrambleTitle, scrambleSubtitle])
+
+  const prevInViewRef = useRef(false)
+  useEffect(() => {
+    if (isInfoInView && !prevInViewRef.current) {
+      triggerScramble()
+    }
+    prevInViewRef.current = isInfoInView
+  }, [isInfoInView, triggerScramble])
+
   const projectHref =
     project.link && project.link !== '#'
       ? project.link
@@ -356,6 +459,7 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       href={projectHref}
       target="_blank"
       rel="noopener noreferrer"
+      onMouseEnter={triggerScramble}
       className="project-card-link group w-full relative cursor-pointer flex flex-col justify-between"
       style={{
         textDecoration: 'none',
@@ -381,25 +485,28 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         />
       </div>
 
-      {/* Info row */}
-      <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      {/* Info row — Observed with useInView so text scrambles when entering viewport */}
+      <div
+        ref={infoRowRef}
+        className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+      >
         <div>
           <p
-            className="text-xs mb-1 font-mono"
+            className="text-xs mb-1 font-mono select-none"
             style={{ color: '#6b6b6b', letterSpacing: '0.08em' }}
           >
-            {project.subtitle}
+            {displaySubtitle}
           </p>
           <div className="flex items-center gap-2">
             <h3
-              className="font-bold transition-colors duration-300 group-hover:text-white"
+              className="font-bold transition-colors duration-300 group-hover:text-white select-none"
               style={{
                 fontSize: 'clamp(1.25rem, 2.2vw, 1.85rem)',
                 color: '#f1f0ed',
                 letterSpacing: '-0.03em',
               }}
             >
-              {project.title}
+              {displayTitle}
             </h3>
             <span
               className="inline-block transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-[#8E8B82] group-hover:text-white text-base"

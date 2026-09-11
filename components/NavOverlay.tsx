@@ -90,20 +90,50 @@ export default function NavOverlay() {
 
     const lenis = (window as any).__lenis
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
-      document.documentElement.style.overflow = 'hidden'
       if (lenis) lenis.stop()
-    } else {
-      document.body.style.overflow = ''
-      document.documentElement.style.overflow = ''
-      if (lenis) lenis.start()
-    }
 
-    return () => {
-      document.body.style.overflow = ''
-      document.documentElement.style.overflow = ''
-      const l = (window as any).__lenis
-      if (l) l.start()
+      const lockedY = window.scrollY
+
+      const preventDefault = (e: Event) => {
+        e.preventDefault()
+      }
+
+      const preventKeyScroll = (e: KeyboardEvent) => {
+        const scrollKeys = [
+          'ArrowUp',
+          'ArrowDown',
+          'PageUp',
+          'PageDown',
+          'Space',
+          ' ',
+          'Home',
+          'End',
+        ]
+        if (scrollKeys.includes(e.key)) {
+          e.preventDefault()
+        }
+      }
+
+      const lockScroll = () => {
+        if (window.scrollY !== lockedY) {
+          window.scrollTo(0, lockedY)
+        }
+      }
+
+      window.addEventListener('touchmove', preventDefault, { passive: false })
+      window.addEventListener('wheel', preventDefault, { passive: false })
+      window.addEventListener('keydown', preventKeyScroll, { passive: false })
+      window.addEventListener('scroll', lockScroll, { passive: false })
+
+      return () => {
+        window.removeEventListener('touchmove', preventDefault)
+        window.removeEventListener('wheel', preventDefault)
+        window.removeEventListener('keydown', preventKeyScroll)
+        window.removeEventListener('scroll', lockScroll)
+        if (lenis) lenis.start()
+      }
+    } else {
+      if (lenis) lenis.start()
     }
   }, [isOpen])
 
@@ -185,7 +215,6 @@ export default function NavOverlay() {
         role="dialog"
         aria-modal="true"
         aria-label="Navigation Menu"
-        data-lenis-prevent="true"
         className="fixed inset-0 w-screen h-screen overflow-hidden z-[100]"
         style={{
           pointerEvents: isOpen ? 'auto' : 'none',

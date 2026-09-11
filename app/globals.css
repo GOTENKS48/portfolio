@@ -419,7 +419,7 @@ html.lenis-body {
 }
 
 .lenis.lenis-stopped {
-  overflow: hidden;
+  /* Preserves position: sticky on child elements when Lenis is stopped */
 }
 
 .lenis.lenis-scrolling iframe {
@@ -466,4 +466,9 @@ header {
 [data-services-wrapper] {
   position: relative;
   z-index: 50;
+}
+
+/* ─── Preloader bypass on scroll restoration to prevent black flash ──────── */
+html.is-restoring-scroll .preloader-curtain {
+  display: none !important;
 }

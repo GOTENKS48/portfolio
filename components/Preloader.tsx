@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PreloaderProps {
@@ -12,7 +12,29 @@ export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
   const [isMounted, setIsMounted] = useState(true)
   const [height, setHeight] = useState(1000)
 
+  // Store callbacks in refs so the animation effect never re-runs due to
+  // new inline arrow references created by parent re-renders (e.g. from scroll).
+  const onReveal70Ref = useRef(onReveal70)
+  const onCompleteRef = useRef(onComplete)
+  onReveal70Ref.current = onReveal70
+  onCompleteRef.current = onComplete
+
+  // This effect runs exactly once on mount — empty dependency array.
+  // Callbacks are accessed via refs, so scroll-triggered re-renders in the
+  // parent cannot restart the effect or skip the animation.
   useEffect(() => {
+    // Bypass preloader entirely on page reload / scroll restoration
+    if (
+      typeof window !== 'undefined' &&
+      (document.documentElement.classList.contains('is-restoring-scroll') ||
+        parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10) > 50)
+    ) {
+      onReveal70Ref.current()
+      onCompleteRef.current()
+      setIsMounted(false)
+      return
+    }
+
     setHeight(window.innerHeight + 300)
 
     // Curtain sweep: duration 3.5s, ease [0.16,1,0.3,1].
@@ -22,19 +44,20 @@ export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
     // but the hero letters (clipped at y:110%) are still invisible. The slow final
     // stretch of the curtain plays out in the background as letters rise into view.
     const revealTimer = setTimeout(() => {
-      onReveal70()
+      onReveal70Ref.current()
     }, 600)
 
     const completeTimer = setTimeout(() => {
       setIsMounted(false)
-      onComplete()
+      onCompleteRef.current()
     }, 3700)
 
     return () => {
       clearTimeout(revealTimer)
       clearTimeout(completeTimer)
     }
-  }, [onReveal70, onComplete])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // SVG viewBox 0 0 100 100 (preserveAspectRatio="none" stretches to fill)
   // Initial: curtain fills screen with a 27% deep bottom curve (matching reference)
@@ -46,7 +69,7 @@ export default function Preloader({ onReveal70, onComplete }: PreloaderProps) {
     <AnimatePresence>
       {isMounted && (
         <motion.div
-          className="fixed left-0 top-0 w-full z-50 pointer-events-none"
+          className="preloader-curtain fixed left-0 top-0 w-full z-50 pointer-events-none"
           style={{
             height: height,
             willChange: 'transform',
