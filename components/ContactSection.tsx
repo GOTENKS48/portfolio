@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { socials } from '@/lib/data'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -21,11 +22,11 @@ const menuLinks = [
 ]
 
 const socialLinks = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/jitendra' },
-  { label: 'Github', href: 'https://github.com/jitendra' },
-  { label: 'LeetCode', href: 'https://leetcode.com/jitendra' },
-  { label: 'Codeforces', href: 'https://codeforces.com/profile/jitendra' },
-  { label: 'CodeChef', href: 'https://www.codechef.com/users/jitendra' },
+  { label: 'LinkedIn', href: socials.linkedin },
+  { label: 'Github', href: socials.github },
+  { label: 'LeetCode', href: socials.leetcode },
+  { label: 'Codeforces', href: socials.codeforces },
+  { label: 'CodeChef', href: socials.codechef },
 ]
 
 export default function ContactSection() {
@@ -62,7 +63,14 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
-    await new Promise((r) => setTimeout(r, 1200))
+
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${form.name}`)
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+    )
+    window.location.href = `mailto:jeetu.singh4824@gmail.com?subject=${subject}&body=${body}`
+
+    await new Promise((r) => setTimeout(r, 600))
     setStatus('sent')
     setForm({ name: '', email: '', message: '' })
     setTimeout(() => setStatus('idle'), 4000)
@@ -316,8 +324,8 @@ export default function ContactSection() {
                   <li key={s.label}>
                     <a
                       href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target={s.href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={s.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
                       className="group relative inline-block"
                       style={{
                         fontSize: '20px',

@@ -150,9 +150,10 @@ export const services = [
 
 // Social links
 export const socials = {
-  linkedin: 'https://linkedin.com/in/jitendra',
-  github: 'https://github.com/jitendra',
-  leetcode: 'https://leetcode.com/jitendra',
-  codeforces: 'https://codeforces.com/profile/jitendra',
-  codechef: 'https://www.codechef.com/users/jitendra',
+  linkedin: 'http://www.linkedin.com/in/jitendra-singh4824/',
+  github: 'https://github.com/GOTENKS48',
+  leetcode: 'https://leetcode.com/u/Jitendra48/',
+  codeforces: 'https://codeforces.com/profile/Jitendra48',
+  codechef: 'https://www.codechef.com/users/jitendra48',
+  email: 'jeetu.singh4824@gmail.com',
 }

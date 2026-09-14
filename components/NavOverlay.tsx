@@ -353,7 +353,7 @@ export default function NavOverlay() {
                         EMAIL ADDRESS
                       </span>
                       <a
-                        href="mailto:jeetu.singh4824@gmail.com"
+                        href={`mailto:${socials.email}`}
                         className="group relative inline-block overflow-hidden focus:outline-none cursor-pointer"
                         style={{
                           fontFamily: 'Consolas, monospace',
@@ -363,10 +363,10 @@ export default function NavOverlay() {
                         }}
                       >
                         <span className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
-                          jeetu.singh4824@gmail.com
+                          {socials.email}
                         </span>
                         <span className="absolute top-0 left-0 block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full group-hover:translate-y-0" style={{ color: 'rgb(232,232,227)' }}>
-                          jeetu.singh4824@gmail.com
+                          {socials.email}
                         </span>
                       </a>
                     </div>
