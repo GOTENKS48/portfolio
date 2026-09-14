@@ -13,6 +13,23 @@ const fadeUp = {
   }),
 }
 
+const WORD_DURATION = 0.85
+const WORD_STAGGER = 0.28
+
+const wordBlock = {
+  hidden: {
+    y: '120%',
+  },
+  visible: (i: number = 0) => ({
+    y: '0%',
+    transition: {
+      delay: i * WORD_STAGGER,
+      duration: WORD_DURATION,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+}
+
 const menuLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Expertise', href: '#services' },
@@ -30,8 +47,18 @@ const socialLinks = [
 ]
 
 export default function ContactSection() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const headingRef = useRef(null)
+  const isHeadingInView = useInView(headingRef, {
+    once: true,
+    amount: 0.35,
+    margin: '0px 0px -80px 0px',
+  })
+  const footerRef = useRef(null)
+  const isFooterInView = useInView(footerRef, {
+    once: true,
+    amount: 0.2,
+    margin: '0px 0px -40px 0px',
+  })
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
   const [mounted, setMounted] = useState(false)
@@ -79,7 +106,6 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      ref={ref}
       style={{
         background: '#e8e8e3',
         paddingLeft: 'clamp(0.875rem, 2.1vw, 2.1rem)',
@@ -106,11 +132,10 @@ export default function ContactSection() {
         >
           {/* Big heading */}
           <motion.h2
-            custom={0}
-            variants={fadeUp}
+            ref={headingRef}
             initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-            className="uppercase text-center"
+            animate={isHeadingInView ? 'visible' : 'hidden'}
+            className="uppercase text-center select-none"
             style={{
               fontSize: 'clamp(2.8rem, 10vw, 144px)',
               fontWeight: 600,
@@ -119,17 +144,42 @@ export default function ContactSection() {
               lineHeight: '0.88',
             }}
           >
-            LET&apos;S MAKE<br />IT HAPPEN
+            <span className="block overflow-hidden pt-1 pb-2">
+              <motion.span
+                custom={0}
+                variants={wordBlock}
+                className="inline-block mr-[0.25em]"
+              >
+                LET&apos;S
+              </motion.span>
+              <motion.span
+                custom={1}
+                variants={wordBlock}
+                className="inline-block"
+              >
+                MAKE
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden pt-1 pb-2">
+              <motion.span
+                custom={2}
+                variants={wordBlock}
+                className="inline-block mr-[0.25em]"
+              >
+                IT
+              </motion.span>
+              <motion.span
+                custom={3}
+                variants={wordBlock}
+                className="inline-block"
+              >
+                HAPPEN
+              </motion.span>
+            </span>
           </motion.h2>
 
-          {/* Form card */}
-          <motion.div
-            custom={0.2}
-            variants={fadeUp}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-            className="mt-14 max-w-md mx-auto"
-          >
+          {/* Form card — preloaded without animation */}
+          <div className="mt-14 max-w-md mx-auto">
             <div
               className="rounded-2xl p-8"
               style={{
@@ -240,16 +290,17 @@ export default function ContactSection() {
                 </button>
               </form>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Footer — 3-column links with generous vertical space */}
       <motion.footer
-        custom={0.4}
+        ref={footerRef}
+        custom={0.2}
         variants={fadeUp}
         initial="hidden"
-        animate={inView ? 'visible' : 'hidden'}
+        animate={isFooterInView ? 'visible' : 'hidden'}
         className="w-full"
         style={{
           paddingTop: 'clamp(6rem, 13vh, 10rem)',

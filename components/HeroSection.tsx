@@ -490,7 +490,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                   variants={imageVariants}
                   initial="hidden"
                   animate={anim}
-                  className="relative rounded-2xl overflow-hidden border border-black/[0.06]"
+                  className="group relative rounded-2xl overflow-hidden border border-black/[0.06] cursor-pointer"
                   style={{
                     width: 'clamp(244px, min(21vw, 40vh), 369px)',
                     aspectRatio: '3 / 4',
@@ -498,10 +498,10 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                 >
                   <div className="w-full h-full relative">
                     <Image
-                      src="/images/hero-profile.png"
+                      src="/images/hero-profile.jpg?v=2"
                       alt="Jitendra Kushwah"
                       fill
-                      className="object-cover grayscale"
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
                       priority
                     />
                   </div>
