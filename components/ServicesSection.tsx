@@ -56,21 +56,8 @@ const descTextVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.3,
-      duration: 0.75,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-}
-
-const badgeTextVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.15,
-      duration: 0.75,
+      delay: 0.75,
+      duration: 1.4,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   },
@@ -78,9 +65,13 @@ const badgeTextVariants = {
 
 // Sub-items for each service, styled as numbered list rows exactly like reference
 const serviceSubItems: Record<string, string[]> = {
-  '01': ['React, Node.js, Express.js', 'REST APIs, PostgreSQL, Docker', 'Kafka, Redis, Microservices'],
-  '02': ['Next.js, TypeScript, GSAP', 'Framer Motion, Tailwind CSS', 'Component systems, Accessibility'],
-  '03': ['Data Structures & Algorithms', 'System Design, Caching', 'Performance Profiling, Pipelines'],
+  '01': ['React.js, TypeScript, Tailwind CSS', 'REST APIs, Node.js, Express.js, MongoDB', 'C++, SQL, Git & GitHub'],
+  '02': [
+    '850+ Problems Solved',
+    'CodeChef 3★ (1608) & Codeforces pupil (1287)',
+    'Ranked 374/11000+ & 1742/30,000+ globally in contests.',
+  ],
+  '03': ['Data Structures & Algorithms', 'DBMS, OOP, OS Fundamentals', 'Scalable Systems & Optimization'],
 }
 
 interface ServicesSectionProps {
@@ -88,8 +79,8 @@ interface ServicesSectionProps {
 }
 
 export default function ServicesSection({ style }: ServicesSectionProps) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const headerRef = useRef<HTMLDivElement>(null)
+  const headerInView = useInView(headerRef, { once: true, amount: 0.25, margin: '0px 0px -40px 0px' })
   const deckContainerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
@@ -116,20 +107,12 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
       const card1 = cardRefs.current[0]
       const card2 = cardRefs.current[1]
       const card3 = cardRefs.current[2]
-      if (!card1 || !card2 || !card3 || top3 === 0) return
-
-      const rect3 = card3.getBoundingClientRect()
-      const p = top3 - rect3.top
-
-      if (p > 0.5) {
-        wasPushed = true
-        const y1 = -Math.min(2 * step, p)
-        const y2 = -Math.min(step, p)
-        card1.style.transform = `translate3d(0, ${y1}px, 0)`
-        card2.style.transform = `translate3d(0, ${y2}px, 0)`
-      } else if (wasPushed) {
+      if (!card1 || !card2 || !card3) return
+      // Cards unstick simultaneously in unison
+      if (wasPushed) {
         card1.style.transform = ''
         card2.style.transform = ''
+        card3.style.transform = ''
         wasPushed = false
       }
     }
@@ -147,10 +130,12 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
       },
     })
 
+    window.addEventListener('scroll', onScrollUpdate, { passive: true })
     window.addEventListener('resize', updateMetrics, { passive: true })
 
     return () => {
       st.kill()
+      window.removeEventListener('scroll', onScrollUpdate)
       window.removeEventListener('resize', updateMetrics)
       const card1 = cardRefs.current[0]
       const card2 = cardRefs.current[1]
@@ -162,9 +147,8 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
   return (
     <motion.section
       id="services"
-      ref={ref}
       style={{
-        background: '#000000',
+        background: '#080807',
         borderRadius: '2rem 2rem 0 0',
         marginTop: 'clamp(-7.5rem, -12vh, -6rem)',
         position: 'relative',
@@ -179,24 +163,27 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
         className="content-width"
         style={{
           paddingTop: 'var(--section-py-top)',
-          paddingBottom: 'var(--section-py-bottom)',
+          paddingBottom: 'clamp(1rem, 2vh, 2rem)',
+          position: 'relative',
+          left: '-clamp(8px, 0.75vw, 18px)',
         }}
       >
         {/* Section header */}
-        <div className="mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-x-6 gap-y-3 items-start">
+        <div ref={headerRef} className="mb-20 lg:mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-x-6 gap-y-12 sm:gap-y-16 lg:gap-y-20 items-start">
             {/* Row 1, Col 1: WHAT I DO / */}
             <motion.h2
               variants={titleContainerVariants}
               initial="hidden"
-              animate={inView ? 'visible' : 'hidden'}
+              animate={headerInView ? 'visible' : 'hidden'}
               aria-label="WHAT I DO /"
-              className="font-black uppercase flex-shrink-0"
+              className="uppercase flex-shrink-0"
               style={{
-                fontSize: 'clamp(2.5rem, 7vw, 7rem)',
+                fontSize: 'clamp(3rem, 8vw, 144px)',
+                fontWeight: 600,
                 lineHeight: '0.9',
                 letterSpacing: '-0.04em',
-                color: '#f1f0ed',
+                color: 'rgb(209, 209, 199)',
                 display: 'inline-block',
               }}
             >
@@ -236,29 +223,43 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
             {/* Row 1, Col 2: Spacer / Empty */}
             <div className="hidden lg:block" aria-hidden="true" />
 
-            {/* Row 2, Col 2: (SERVICES) and text - top matches WHAT I DO / bottom, horizontally starts where WHAT I DO / ends */}
-            <div className="lg:col-start-2 flex flex-col sm:flex-row sm:items-baseline gap-6 sm:gap-12 lg:gap-16 max-w-2xl">
-              <div style={{ overflow: 'hidden' }} className="flex-shrink-0">
-                <motion.span
-                  variants={badgeTextVariants}
-                  initial="hidden"
-                  animate={inView ? 'visible' : 'hidden'}
-                  className="text-xs tracking-widest uppercase block"
-                  style={{ color: '#6b6b6b', fontFamily: 'monospace' }}
+            {/* Row 2, Col 2: (SERVICES) and text */}
+            <div
+              className="lg:col-start-2 flex flex-col sm:flex-row sm:items-baseline gap-6 sm:gap-12 lg:gap-16 max-w-xl"
+              style={{
+                position: 'relative',
+                left: '-clamp(4rem, 7.5vw, 11rem)',
+              }}
+            >
+              <div className="flex-shrink-0">
+                <span
+                  className="tracking-widest uppercase block"
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    color: 'rgb(126, 118, 108)',
+                    fontFamily: 'var(--font-mono)',
+                  }}
                 >
-                  (SERVICES)
-                </motion.span>
+                  (EXPERTISE)
+                </span>
               </div>
 
               <div style={{ overflow: 'hidden' }}>
                 <motion.p
                   variants={descTextVariants}
                   initial="hidden"
-                  animate={inView ? 'visible' : 'hidden'}
-                  className="text-sm sm:text-base leading-relaxed text-left"
-                  style={{ color: '#6b6b6b' }}
+                  animate={headerInView ? 'visible' : 'hidden'}
+                  className="leading-relaxed text-left"
+                  style={{
+                    fontSize: 'clamp(1rem, 1.5vw, 24px)',
+                    fontWeight: 500,
+                    color: 'rgb(162, 158, 154)',
+                    maxWidth: '480px',
+                    lineHeight: 1.45,
+                  }}
                 >
-                  I build fast, reliable, and beautiful digital products — from backend systems to polished frontends.
+                  I specialize in building scalable software systems and web applications with a focus on performance, reliability, and clean architecture. Using modern full-stack technologies and AI-powered workflows, I create efficient solutions that scale and deliver real impact.
                 </motion.p>
               </div>
             </div>
@@ -269,31 +270,27 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
         <div
           ref={deckContainerRef}
           className="relative"
-          style={{ paddingBottom: 'clamp(2rem, 4vh, 3.5rem)' }}
         >
           {services.map((service, i) => (
-            <motion.div
+            <div
               ref={(el) => {
-                cardRefs.current[i] = el as HTMLDivElement | null
+                cardRefs.current[i] = el
               }}
               key={service.number}
-              custom={0.15 + i * 0.15}
-              variants={cardFade}
-              initial="hidden"
-              animate={inView ? 'visible' : 'hidden'}
               className="sticky"
               style={{
-                top: `calc(clamp(4.5rem, 7vh, 5.5rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem))`,
+                top: `calc(clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem))`,
                 zIndex: i + 1,
-                background: '#000000',
+                background: '#080807',
+                minHeight: `calc(100vh - (clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem)) + clamp(8rem, 20vh, 15rem))`,
               }}
             >
               <ServiceItem service={service} index={i} />
-            </motion.div>
+            </div>
           ))}
 
           {/* Calibrated scroll runway so Card (03) stacks smoothly then cards cleanly transition into WorksSection */}
-          <div style={{ height: 'clamp(8rem, 14vh, 12rem)' }} aria-hidden="true" />
+          <div style={{ height: 'clamp(1.5rem, 3vh, 3rem)' }} aria-hidden="true" />
         </div>
       </div>
     </motion.section>
@@ -305,62 +302,72 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
 
   return (
     <div
-      className="pt-1 sm:pt-1.5 md:pt-2 pb-10 sm:pb-12 md:pb-14 grid grid-cols-1 md:grid-cols-[minmax(120px,160px)_1fr] gap-3 sm:gap-4 md:gap-12 items-start"
+      className="pt-1 sm:pt-1.5 md:pt-2 pb-10 sm:pb-12 md:pb-14 relative"
       style={{
-        borderTop: '1px solid rgba(255,255,255,0.12)',
-        background: '#000000',
+        borderTop: '1px solid rgba(126, 118, 108, 0.45)',
+        background: '#080807',
       }}
     >
-      {/* Number — large, left column */}
-      <div className="flex-shrink-0">
+      {/* Number — absolutely positioned left */}
+      <div className="md:absolute md:left-0 md:top-2 flex-shrink-0 mb-3 md:mb-0">
         <span
-          className="font-black block"
+          className="block"
           style={{
-            fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
-            color: 'rgba(241,240,237,0.3)',
+            fontSize: '57px',
+            fontWeight: 600,
+            color: 'rgb(209, 209, 199)',
             letterSpacing: '-0.04em',
             lineHeight: '1.1',
-            fontFamily: 'monospace',
+            fontFamily: 'var(--font-mono)',
           }}
         >
           ({service.number})
         </span>
       </div>
 
-      {/* Content — right column */}
-      <div>
+      {/* Content — centered */}
+      <div style={{ marginLeft: 'clamp(16rem, 38vw, 36rem)' }}>
         <h3
-          className="font-bold mb-4"
+          className="mb-6"
           style={{
-            fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-            color: '#f1f0ed',
+            fontSize: '57px',
+            fontWeight: 600,
+            color: 'rgb(209, 209, 199)',
             letterSpacing: '-0.03em',
             lineHeight: '1.1',
           }}
         >
           {service.title}
         </h3>
-        <p className="text-sm leading-relaxed mb-8" style={{ color: '#6b6b6b', maxWidth: '650px' }}>
+        <p
+          className="leading-relaxed mb-4"
+          style={{
+            fontSize: '20px',
+            fontWeight: 500,
+            color: 'rgb(162, 158, 154)',
+            maxWidth: '480px',
+            marginLeft: '15px',
+          }}
+        >
           {service.description}
         </p>
 
         {/* Numbered sub-items — exactly like reference */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ marginLeft: '15px' }}>
           {subItems.map((item, i) => (
             <div
               key={i}
-              className="flex items-center gap-5 py-4"
-              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+              className="flex items-center gap-5 py-2"
+              style={{ borderBottom: i < subItems.length - 1 ? '1px solid rgba(126, 118, 108, 0.45)' : 'none' }}
             >
               <span
-                className="flex-shrink-0 text-xs"
-                style={{ color: '#4a4a4a', fontFamily: 'monospace', minWidth: '30px' }}
+                className="flex-shrink-0"
+                style={{ fontSize: '20px', fontWeight: 500, color: 'rgb(126, 118, 108)', fontFamily: 'Consolas, monospace', minWidth: '30px' }}
               >
                 0{i + 1}
               </span>
               <span
-                className="font-bold"
-                style={{ fontSize: 'clamp(0.875rem, 2vw, 1.4rem)', color: '#f1f0ed', letterSpacing: '-0.02em' }}
+                style={{ fontSize: '32px', fontWeight: 700, color: 'rgb(191, 191, 177)', letterSpacing: '-0.02em' }}
               >
                 {item}
               </span>

@@ -23,7 +23,7 @@ const titleContainerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.04,
+      staggerChildren: 0.045,
       delayChildren: 0.08,
     },
   },
@@ -35,7 +35,7 @@ const letterVariants = {
     y: '0%',
     transition: {
       type: 'tween' as const,
-      duration: 0.9,
+      duration: 0.95,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   },
@@ -43,26 +43,13 @@ const letterVariants = {
 
 // ─── Subtext Variants (matching ServicesSection) ────────────────────────────
 const descTextVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.28,
-      duration: 0.75,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-}
-
-const badgeTextVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.15,
-      duration: 0.75,
+      delay: 0.75,
+      duration: 1.4,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   },
@@ -90,7 +77,6 @@ function useScrambleText(
       const elapsed = now - startTime
       const progress = Math.min(elapsed / duration, 1)
 
-      // Initial burst: all characters rapidly scramble at full speed before resolving begins
       let settledCount = 0
       if (elapsed > scrambleBurst) {
         const resolveElapsed = elapsed - scrambleBurst
@@ -110,7 +96,7 @@ function useScrambleText(
         } else {
           result +=
             SCRAMBLE_GLYPHS[
-              Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)
+            Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)
             ]
         }
       }
@@ -139,6 +125,8 @@ function useScrambleText(
 
 export default function WorksSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const headerInView = useInView(headerRef, { once: true, amount: 0.25, margin: '0px 0px -40px 0px' })
   const [activeIdx, setActiveIdx] = useState(0)
 
   // Digit reel refs for the stationary sticky number that rolls up only digit-wise
@@ -147,9 +135,6 @@ export default function WorksSection() {
 
   // Project card refs for tracking scroll position on the whole long page
   const projectCardRefs = useRef<(HTMLDivElement | null)[]>([])
-
-  const { displayText: displayProjectsBadge, scramble: scrambleProjectsBadge } =
-    useScrambleText('(PROJECTS)', 850, 200)
 
   useEffect(() => {
     if (!unitDigitBoxRef.current || !unitDigitReelRef.current) return
@@ -237,29 +222,30 @@ export default function WorksSection() {
     <section
       id="works"
       ref={sectionRef}
-      style={{ background: '#000000', position: 'relative', zIndex: 20 }}
+      style={{ background: '#080807', position: 'relative', zIndex: 20 }}
       className="section-pad"
     >
       {/* ─── RESTORED HEADING WITH GENEROUS SPACE BEFORE FIRST PROJECT ──────── */}
-      <motion.div
+      <div
+        ref={headerRef}
         className="content-width"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
         style={{
-          paddingTop: 'var(--section-py-top)',
-          paddingBottom: 'clamp(6rem, 14vh, 11rem)', // Generous space between heading text and first project
+          paddingTop: 'clamp(2rem, 4vh, 3.5rem)',
+          paddingBottom: 'clamp(3.5rem, 8vh, 6.5rem)', // Reduced vertical space before first project
         }}
       >
         <motion.h2
           variants={titleContainerVariants}
+          initial="hidden"
+          animate={headerInView ? 'visible' : 'hidden'}
           aria-label="SELECTED WORKS /"
-          className="font-black uppercase"
+          className="uppercase"
           style={{
-            fontSize: 'clamp(2.5rem, 7vw, 7rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 90px)',
+            fontWeight: 600,
             lineHeight: '0.9',
             letterSpacing: '-0.04em',
-            color: '#f1f0ed',
+            color: 'rgb(209, 209, 199)',
           }}
         >
           {headingWords.map((word, wordIdx) => (
@@ -294,30 +280,40 @@ export default function WorksSection() {
 
         {/* Subrow: (PROJECTS) matching project card left edge, with text positioned close alongside */}
         <div
-          className="mt-6 sm:mt-8 ml-auto flex flex-col sm:flex-row sm:items-baseline gap-6 sm:gap-10 lg:gap-12"
+          className="mt-10 sm:mt-12 lg:mt-16 ml-auto flex flex-col sm:flex-row sm:items-baseline gap-6 sm:gap-10 lg:gap-12"
           style={{ width: 'min(1050px, 68vw)' }}
         >
-          <div style={{ overflow: 'hidden' }} className="flex-shrink-0 px-0.5">
-            <motion.span
-              variants={badgeTextVariants}
-              onMouseEnter={scrambleProjectsBadge}
-              className="text-xs tracking-widest uppercase block cursor-pointer select-none"
-              style={{ color: '#6b6b6b', fontFamily: 'monospace' }}
+          <div className="flex-shrink-0 px-0.5">
+            <span
+              className="tracking-widest uppercase block select-none"
+              style={{
+                fontSize: '16px',
+                fontWeight: 500,
+                color: 'rgb(126, 118, 108)',
+                fontFamily: 'var(--font-mono)',
+              }}
             >
-              {displayProjectsBadge}
-            </motion.span>
+              (PROJECTS)
+            </span>
           </div>
-          <div style={{ overflow: 'hidden' }} className="max-w-md">
+          <div style={{ overflow: 'hidden', maxWidth: '480px' }}>
             <motion.p
               variants={descTextVariants}
-              className="text-sm sm:text-base leading-relaxed text-left"
-              style={{ color: '#6b6b6b' }}
+              initial="hidden"
+              animate={headerInView ? 'visible' : 'hidden'}
+              className="leading-relaxed text-left"
+              style={{
+                fontSize: 'clamp(1.1rem, 1.5vw, 24px)',
+                fontWeight: 500,
+                color: 'rgb(162, 158, 154)',
+                lineHeight: 1.45,
+              }}
             >
-              Engineering work that blends architecture depth with interface precision.
+              Thoughtfully crafted digital experiences that blend utility and aesthetics into something functional,memorable,and refined.
             </motion.p>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* ─── MAIN WORKS CONTAINER: TOP-LEFT STICKY NUMBER + WHOLE LONG PAGE ─── */}
       <div className="content-width flex items-start justify-between gap-8 lg:gap-16 relative">
@@ -332,21 +328,21 @@ export default function WorksSection() {
           <div
             className="leading-none select-none flex items-baseline"
             style={{
-              fontSize: 'clamp(7.5rem, 20vw, 20rem)',
-              fontWeight: 500, // Medium weight
-              color: '#8E8B82',
+              fontSize: 'clamp(140px, 22vw, 422px)',
+              fontWeight: 400,
+              color: 'rgb(162, 158, 154)',
               letterSpacing: '-0.03em',
               lineHeight: '0.85',
-              fontFamily:
-                'var(--font-display), "Neue Montreal", Inter, sans-serif',
+              fontFamily: 'var(--font-sans)',
             }}
           >
             {/* Tens Digit: Stationary Dotted Zero */}
             <span className="relative inline-flex items-center justify-center flex-shrink-0">
               0
               <span
-                className="absolute bg-[#8E8B82] rounded-[1px] pointer-events-none"
+                className="absolute rounded-[1px] pointer-events-none"
                 style={{
+                  backgroundColor: 'currentColor',
                   width: '0.135em',
                   height: '0.135em',
                   top: '50%',
@@ -488,44 +484,59 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       {/* Info row — Observed with useInView so text scrambles when entering viewport */}
       <div
         ref={infoRowRef}
-        className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+        className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
       >
         <div>
           <p
-            className="text-xs mb-1 font-mono select-none"
-            style={{ color: '#6b6b6b', letterSpacing: '0.08em' }}
+            className="mb-1 select-none"
+            style={{
+              fontFamily: 'Consolas, monospace',
+              fontSize: '16px',
+              fontWeight: 500,
+              color: 'rgb(162, 158, 154)',
+              letterSpacing: '0.04em',
+            }}
           >
             {displaySubtitle}
           </p>
-          <div className="flex items-center gap-2">
+          <div>
             <h3
-              className="font-bold transition-colors duration-300 group-hover:text-white select-none"
+              className="transition-colors duration-300 group-hover:text-white select-none"
               style={{
-                fontSize: 'clamp(1.25rem, 2.2vw, 1.85rem)',
-                color: '#f1f0ed',
+                fontFamily: 'Consolas, monospace',
+                fontSize: 'clamp(1.75rem, 2.5vw, 43px)',
+                fontWeight: 600,
+                color: 'rgb(209, 209, 199)',
                 letterSpacing: '-0.03em',
+                lineHeight: 1.15,
               }}
             >
               {displayTitle}
             </h3>
-            <span
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-[#8E8B82] group-hover:text-white text-base"
-              aria-hidden="true"
-            >
-              ↗
-            </span>
           </div>
         </div>
-        <div className="flex-shrink-0 flex gap-2 flex-wrap">
+        <div className="flex-shrink-0 flex items-center gap-2.5 flex-wrap">
           <span
-            className="text-xs font-mono px-3 py-1 rounded-full border transition-colors duration-300 group-hover:border-white/30"
-            style={{ color: '#6b6b6b', borderColor: 'rgba(255,255,255,0.15)' }}
+            className="px-3.5 py-1 rounded-full select-none"
+            style={{
+              fontSize: '14px',
+              fontWeight: 500,
+              color: 'rgb(162, 158, 154)',
+              border: '1px solid rgb(162, 158, 154)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
             {project.category}
           </span>
           <span
-            className="text-xs font-mono px-3 py-1 rounded-full border transition-colors duration-300 group-hover:border-white/30"
-            style={{ color: '#6b6b6b', borderColor: 'rgba(255,255,255,0.15)' }}
+            className="px-3.5 py-1 rounded-full select-none"
+            style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#000000',
+              backgroundColor: 'rgb(162, 158, 154)',
+              fontFamily: 'var(--font-sans)',
+            }}
           >
             {project.year}
           </span>

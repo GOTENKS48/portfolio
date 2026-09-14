@@ -1,69 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 /*
- * montrealMono — drop your font files into /public/fonts/
- * Naming convention: MontrealMono-Regular.woff2, MontrealMono-Bold.woff2, etc.
- * Space Mono is the live fallback until those files are placed.
+ * Geist Fonts (Geist, Geist Mono)
+ * Loaded via local woff2 from /public/fonts/ and Google Fonts
  */
 @font-face {
-  font-family: 'montrealMono';
-  src: url('/fonts/MontrealMono-Regular.woff2') format('woff2'),
-    url('/fonts/MontrealMono-Regular.woff') format('woff');
-  font-weight: 400;
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'montrealMono';
-  src: url('/fonts/MontrealMono-Bold.woff2') format('woff2'),
-    url('/fonts/MontrealMono-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Fallback alias so the stack resolves even without the actual files */
-@font-face {
-  font-family: 'montrealMono Fallback';
-  src: local('Space Mono'), local('Courier New');
-  font-weight: 400 700;
-  font-style: normal;
-}
-
-/*
- * PP Neue Montreal — drop Neue Montreal files here
- */
-@font-face {
-  font-family: 'PP Neue Montreal';
-  src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2'),
-    url('/fonts/NeueMontreal-Regular.woff') format('woff');
-  font-weight: 400;
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'PP Neue Montreal';
-  src: url('/fonts/NeueMontreal-Bold.woff2') format('woff2'),
-    url('/fonts/NeueMontreal-Bold.woff') format('woff');
-  font-weight: 700;
+  font-family: 'GeistSans';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Neue Montreal';
-  src: url('/fonts/NeueMontreal-Regular.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'GeistMono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
-}
-
-@font-face {
-  font-family: 'Neue Montreal';
-  src: url('/fonts/NeueMontreal-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+  font-display: swap;
 }
 
 /* stylelint-disable */
@@ -85,14 +53,14 @@
   --color-cream-dark: #dbdbd6;
   --color-text-primary: #141414;
   --color-text-muted: #6B645C;
-  --color-dark-bg: #000000;
-  --color-dark-surface: #000000;
+  --color-dark-bg: #080807;
+  --color-dark-surface: #080807;
   --color-light-text: #f1f0ed;
   --color-dark-muted: #6b6b6b;
   --color-dark-border: rgba(255, 255, 255, 0.08);
-  --font-mono: 'montrealMono', 'montrealMono Fallback', 'Space Mono', 'Courier New', monospace;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'PP Neue Montreal', 'Neue Montreal', 'Inter', sans-serif;
+  --font-mono: 'Geist Mono', 'GeistMono', 'Geist', monospace;
+  --font-sans: 'Geist', 'GeistSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Geist', 'GeistSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --transition-speed: 150ms;
   --transition-ease: cubic-bezier(0.25, 1, 0.5, 1);
 
@@ -123,7 +91,7 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-ink-soft);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -133,16 +101,21 @@ body {
 /* ─── Custom Scrollbar ────────────────────────────────────────────────────── */
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 14px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: #3a3a3a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
-  border-radius: 2.5px;
+  background: #b0b0b0;
+  border-radius: 10px;
+  border: 3px solid #3a3a3a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
 }
 
 /* Hide scrollbar for horizontal scroll containers */
@@ -471,4 +444,10 @@ header {
 /* ─── Preloader bypass on scroll restoration to prevent black flash ──────── */
 html.is-restoring-scroll .preloader-curtain {
   display: none !important;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: auto;
+  scrollbar-color: #b0b0b0 #3a3a3a;
 }

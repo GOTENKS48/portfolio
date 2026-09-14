@@ -280,10 +280,10 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                 animate={anim}
                 aria-label={NAME}
                 style={{
-                  fontSize: 'clamp(2.1rem, 9.0vw, 13.5rem)',
+                  fontSize: 'clamp(2.5rem, 9.24vw, 15.5rem)',
                   lineHeight: '0.9',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                  fontWeight: 800,
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 750,
                   letterSpacing: '-0.025em',
                   display: 'block',
                   width: '100%',
@@ -379,16 +379,15 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                       animate={anim}
                       style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: 'clamp(0.875rem, 1.18vw, 1.15rem)',
-                        fontWeight: 400,
+                        fontSize: 'clamp(1.125rem, 2.2vw, 29px)',
+                        fontWeight: 450,
                         color: '#6B645C',
-                        lineHeight: 1.6,
-                        letterSpacing: '-0.01em',
-                        maxWidth: 'clamp(350px, 26vw, 525px)',
+                        lineHeight: 1.4,
+                        letterSpacing: '-0.015em',
+                        maxWidth: 'clamp(350px, 30vw, 600px)',
                       }}
                     >
-                      I build fast, modern systems and interfaces that help ideas scale —
-                      available for full-time and freelance projects worldwide.
+                      I build and optimize applications, making them efficient, scalable, and user-focused, available for full-time opportunities.
                     </motion.p>
                   </div>
 
@@ -525,8 +524,8 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                     animate={anim}
                     style={{
                       display: 'block',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: 'clamp(0.75rem, 1.05vw, 0.95rem)',
+                      fontFamily: "'Consolas', monospace",
+                      fontSize: 'clamp(1rem, 1.4vw, 20px)',
                       fontWeight: 500,
                       letterSpacing: '0.02em',
                       color: '#6B645C',
@@ -547,10 +546,10 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                     style={{
                       display: 'block',
                       fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(3.2rem, 6.5vw, 6.8rem)',
-                      fontWeight: 700,
+                      fontSize: 'clamp(3.2rem, 8vw, 144px)',
+                      fontWeight: 600,
                       color: '#393632',
-                      lineHeight: '0.85',
+                      lineHeight: '0.9',
                       letterSpacing: '-0.03em',
                       textTransform: 'uppercase',
                       textAlign: 'right',

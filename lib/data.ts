@@ -101,21 +101,18 @@ export const skills = {
     'TypeScript',
     'JavaScript',
     'C++',
-    'Java',
     'SQL',
-    'Bash',
+    'Git',
+    'Firebase',
     'HTML / CSS',
   ],
   frameworks: [
     'React',
-    'Next.js',
     'Node.js',
     'Express.js',
     'Flask',
-    'FastAPI',
+    'REST APIs',
     'TailwindCSS',
-    'Framer Motion',
-    'GSAP',
   ],
   concepts: [
     'Data Structures & Algorithms',
@@ -123,9 +120,6 @@ export const skills = {
     'DBMS',
     'OOP',
     'Operating Systems',
-    'Computer Networks',
-    'Microservices',
-    'REST / GraphQL',
   ],
 }
 
@@ -135,21 +129,21 @@ export const services = [
     number: '01',
     title: 'Full-Stack Development',
     description:
-      'End-to-end web application architecture — from RESTful APIs and microservices to cloud-native deployments. I build systems that scale reliably under production load, using Node.js, Python, PostgreSQL, Redis, and Docker.',
+      'From frontend interactions to backend APIs, I build complete web solutions. I work with modern stacks to deliver apps that are scalable, maintainable, and ready for real-world users.',
     tags: ['Node.js', 'React', 'PostgreSQL', 'Docker', 'REST APIs'],
   },
   {
     number: '02',
-    title: 'UI / UX & Frontend',
+    title: 'Competitive Programming',
     description:
-      'Pixel-precise interfaces with deliberate motion design. I translate design intent into performant React applications with advanced animations (Framer Motion, GSAP), accessibility standards, and component architecture.',
-    tags: ['React', 'Next.js', 'Framer Motion', 'GSAP', 'TypeScript'],
+      'I enjoy tackling challenging algorithmic problems and competing in programming contests. Competitive programming has strengthened my problem-solving skills, algorithmic thinking, and ability to write efficient code under pressure.',
+    tags: ['Algorithms', 'Data Structures', 'CodeChef', 'Codeforces', 'C++'],
   },
   {
     number: '03',
-    title: 'Core Optimization',
+    title: 'Optimization',
     description:
-      'Algorithmic efficiency and data pipeline engineering. I diagnose bottlenecks, design optimal data structures, architect event-driven systems with Kafka, and apply system design patterns for high-throughput environments.',
+      'I focus on building systems that stay reliable as things scale. From handling data efficiently to designing clean architecture, I apply core computer science principles to keep applications fast, stable, and future-ready.',
     tags: ['DSA', 'Kafka', 'System Design', 'Caching', 'Performance'],
   },
 ]
@@ -159,4 +153,6 @@ export const socials = {
   linkedin: 'https://linkedin.com/in/jitendra',
   github: 'https://github.com/jitendra',
   leetcode: 'https://leetcode.com/jitendra',
+  codeforces: 'https://codeforces.com/profile/jitendra',
+  codechef: 'https://www.codechef.com/users/jitendra',
 }

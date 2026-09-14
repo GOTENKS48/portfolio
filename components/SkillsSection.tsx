@@ -42,6 +42,19 @@ const fadeUp = {
   }),
 }
 
+const groundUp = {
+  hidden: { opacity: 0, y: 55 },
+  visible: (d: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: d,
+      duration: 0.75,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+}
+
 // ─── Scramble Text Animation Hook (Project Names Effect) ───────────────────
 const SCRAMBLE_GLYPHS = 'ABCDEF0123456789!<>-_\\/[]{}—=+*^?#~'
 
@@ -83,7 +96,7 @@ function useScrambleText(
         } else {
           result +=
             SCRAMBLE_GLYPHS[
-              Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)
+            Math.floor(Math.random() * SCRAMBLE_GLYPHS.length)
             ]
         }
       }
@@ -150,12 +163,14 @@ function SkillItem({
   return (
     <li
       ref={itemRef}
-      className="group text-sm cursor-pointer select-none"
+      className="group cursor-pointer select-none"
       style={{
-        fontFamily: isFramework ? 'monospace' : 'inherit',
+        fontFamily: 'Consolas, monospace',
+        fontSize: '20px',
+        fontWeight: 500,
       }}
     >
-      <span className="relative block overflow-hidden leading-normal" style={{ color: '#6b6b6b' }}>
+      <span className="relative block overflow-hidden leading-normal" style={{ color: 'rgb(162, 158, 154)' }}>
         {/* Copy 1: Rolls out upwards */}
         <span
           className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full"
@@ -184,6 +199,8 @@ export default function SkillsSection() {
   const panelRef = useRef<HTMLDivElement>(null)
   const skillsHeadingRef = useRef<HTMLHeadingElement>(null)
   const inView = useInView(sectionRef, { once: true, margin: '0px 0px -50px 0px' })
+  const aboutRef = useRef<HTMLDivElement>(null)
+  const aboutInView = useInView(aboutRef, { once: true, amount: 0.05 })
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -232,7 +249,7 @@ export default function SkillsSection() {
         ref={panelRef}
         className="section-pad"
         style={{
-          background: '#000000',
+          background: '#080807',
           width: '100%',
           transformOrigin: 'center top',
           willChange: 'transform',
@@ -248,186 +265,224 @@ export default function SkillsSection() {
             paddingBottom: 'var(--section-py-bottom)',
           }}
         >
-        {/* Top half: DEVELOPER DESIGNER CREATOR left + Skills right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-start">
-          {/* Left: identity text — top matches Skills heading's bottom */}
-          <div className="lg:pt-[clamp(1.5rem,2.75vw,2.7rem)]">
-            <motion.div
-              variants={heroTitleVariants}
-              initial="hidden"
-              animate={inView ? 'visible' : 'hidden'}
-            >
-              {['DEVELOPER', 'DESIGNER', 'CREATOR/'].map((word) => (
-                <p
-                  key={word}
-                  className="font-black uppercase leading-none"
-                  style={{
-                    fontSize: 'clamp(2.5rem, 6.5vw, 6.5rem)',
-                    letterSpacing: '-0.04em',
-                    color: '#f1f0ed',
-                  }}
-                  aria-label={word}
-                >
-                  <span style={{ display: 'inline-block' }}>
-                    {word.split('').map((char, charIdx) => (
-                      <span
-                        key={charIdx}
-                        style={{
-                          display: 'inline-block',
-                          overflow: 'hidden',
-                          verticalAlign: 'bottom',
-                          lineHeight: '1.05',
-                        }}
-                      >
-                        <motion.span
-                          variants={letterVariants}
-                          style={{ display: 'inline-block' }}
-                        >
-                          {char}
-                        </motion.span>
-                      </span>
-                    ))}
-                  </span>
-                </p>
-              ))}
-            </motion.div>
-          </div>
+          {/* Top half: DEVELOPER DESIGNER CREATOR left + Skills right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-start">
+            {/* Left: identity text — top matches Skills heading's bottom */}
+            <div className="lg:pt-[clamp(1.5rem,2.75vw,2.7rem)]">
+              <motion.div
+                variants={heroTitleVariants}
+                initial="hidden"
+                animate={inView ? 'visible' : 'hidden'}
+              >
+                {['PROBLEM SOLVER', 'DEVELOPER', 'CREATOR/'].map((word) => (
+                  <p
+                    key={word}
+                    className="uppercase leading-none whitespace-nowrap"
+                    style={{
+                      fontSize: 'clamp(2rem, 4.75vw, 96px)',
+                      fontWeight: 600,
+                      letterSpacing: '-0.04em',
+                      color: 'rgb(209, 209, 199)',
+                    }}
+                    aria-label={word}
+                  >
+                    <span style={{ display: 'inline-block' }}>
+                      {word.split('').map((char, charIdx) => {
+                        if (char === ' ') {
+                          return (
+                            <span
+                              key={charIdx}
+                              style={{ display: 'inline-block', width: '0.28em' }}
+                              aria-hidden="true"
+                            />
+                          )
+                        }
+                        return (
+                          <span
+                            key={charIdx}
+                            style={{
+                              display: 'inline-block',
+                              overflow: 'hidden',
+                              verticalAlign: 'bottom',
+                              lineHeight: '1.05',
+                            }}
+                          >
+                            <motion.span
+                              variants={letterVariants}
+                              style={{ display: 'inline-block' }}
+                            >
+                              {char}
+                            </motion.span>
+                          </span>
+                        )
+                      })}
+                    </span>
+                  </p>
+                ))}
+              </motion.div>
+            </div>
 
-          {/* Right: Skills label placed directly above second column + 3 equal columns below */}
-          <div className="w-full">
-            {/* Skills heading row: aligned above column 2 on tablet/desktop, top on mobile */}
-            <div
-              className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8"
-              style={{
-                marginBottom: 'clamp(3.5rem, 6vh, 5.25rem)',
-              }}
-            >
+            {/* Right: Skills label placed directly above second column + 3 equal columns below */}
+            <div className="w-full">
+              {/* Skills heading row: aligned above column 2 on tablet/desktop, top on mobile */}
               <div
-                className="sm:col-start-2 flex items-start"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8"
                 style={{
-                  height: 'clamp(2.4rem, 5vw, 4.5rem)',
+                  marginBottom: 'clamp(3.5rem, 6vh, 5.25rem)',
                 }}
               >
-                <h3
-                  ref={skillsHeadingRef}
-                  className="font-black"
+                <div
+                  className="sm:col-start-2 flex items-start"
                   style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: 'clamp(2.4rem, 5vw, 4.5rem)',
-                    letterSpacing: '-0.04em',
-                    color: '#f1f0ed',
-                    lineHeight: '0.9',
+                    height: 'auto',
                   }}
                 >
-                  Skills
-                </h3>
-              </div>
-            </div>
-
-            {/* 3 equally spaced columns with identical top baseline */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 items-start">
-              {skillCategories.map((cat, i) => (
-                <motion.div
-                  key={cat.key}
-                  custom={0.2 + i * 0.1}
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate={inView ? 'visible' : 'hidden'}
-                >
-                  <h4
-                    className="font-bold mb-4 leading-tight"
-                    style={{ color: '#f1f0ed', fontSize: '0.85rem' }}
+                  <h3
+                    ref={skillsHeadingRef}
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: 'clamp(2.5rem, 6vw, 90px)',
+                      fontWeight: 700,
+                      letterSpacing: '-0.04em',
+                      color: 'rgb(209, 209, 199)',
+                      lineHeight: '0.9',
+                    }}
                   >
-                    {cat.label}
-                  </h4>
-                  <ul className="space-y-2">
-                    {skills[cat.key].map((skill, itemIdx) => (
-                      <SkillItem
-                        key={skill}
-                        skill={skill}
-                        isFramework={cat.key === 'frameworks'}
-                        staggerDelay={i * 75 + itemIdx * 35}
-                      />
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* About Me row — narrow image left, heading + (about me + paragraph) right */}
-        <motion.div
-          custom={0.4}
-          variants={fadeUp}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start mt-24 lg:mt-32"
-        >
-          {/* Left Column: Narrow Image */}
-          <div className="w-full flex justify-start">
-            <div
-              className="relative rounded-2xl overflow-hidden w-full max-w-[362px] sm:max-w-[400px] mx-auto lg:mx-0 flex-shrink-0"
-              style={{
-                height: '462.5px',
-                background: '#1a1a1a',
-              }}
-            >
-              <Image
-                src="/images/hero-profile.png"
-                alt="Jitendra Kumar"
-                fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                sizes="(max-width: 1024px) 362px, 400px"
-              />
-            </div>
-          </div>
-
-          {/* Right column: Shifted further left in between DEVELOPER DESIGNER CREATOR heading and first column */}
-          <div className="flex flex-col justify-start w-full lg:-ml-28 xl:-ml-40 lg:pr-0 xl:pr-4">
-            {/* Heading aligned with image's top */}
-            <h3
-              className="font-medium"
-              style={{
-                fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)',
-                color: '#f1f0ed',
-                letterSpacing: '-0.02em',
-                lineHeight: '1.35',
-              }}
-            >
-              I&apos;m a software engineer driven by a passion for turning ideas into clean, intuitive digital experiences.
-            </h3>
-
-            {/* Under this heading: About Me on left, paragraph on right with comfortable spacing */}
-            <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5 sm:gap-8 lg:gap-10 mt-6 lg:mt-8 items-start">
-              {/* Left: About Me label */}
-              <div className="flex-shrink-0 sm:pt-0.5">
-                <p
-                  className="text-xs tracking-widest uppercase"
-                  style={{ color: '#6b6b6b', fontFamily: 'monospace' }}
-                >
-                  (About Me)
-                </p>
+                    Skills
+                  </h3>
+                </div>
               </div>
 
-              {/* Right: paragraph matching skill elements font size (text-sm), narrowed */}
-              <div className="space-y-3 max-w-[525px]">
-                <p
-                  className="text-sm font-normal leading-relaxed"
-                  style={{ color: '#a1a1a1' }}
-                >
-                  Specializing in modern full-stack development, I bridge the gap between creative design and robust engineering. I build scalable backend architectures and fluid, responsive interfaces that emphasize speed, clean code, and intuitive user experiences.
-                </p>
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ color: '#6b6b6b' }}
-                >
-                  Constantly exploring new paradigms across distributed systems, interactive motion design, and developer tooling to turn complex challenges into seamless digital products.
-                </p>
+              {/* 3 equally spaced columns with identical top baseline — preloaded and static */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 items-start">
+                {skillCategories.map((cat, i) => (
+                  <div key={cat.key}>
+                    <h4
+                      className="mb-4 leading-tight"
+                      style={{
+                        fontSize: '20px',
+                        fontWeight: 600,
+                        color: 'rgb(209, 209, 199)',
+                      }}
+                    >
+                      {cat.label}
+                    </h4>
+                    <ul className="space-y-2">
+                      {skills[cat.key].map((skill, itemIdx) => (
+                        <SkillItem
+                          key={skill}
+                          skill={skill}
+                          isFramework={cat.key === 'frameworks'}
+                          staggerDelay={i * 75 + itemIdx * 35}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </motion.div>
+
+          {/* About Me row — narrow image left, heading + (about me + paragraph) right */}
+          <div
+            ref={aboutRef}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start mt-24 lg:mt-32"
+          >
+            {/* Left Column: Narrow Image — preloaded */}
+            <div className="w-full flex justify-start">
+              <div
+                className="relative rounded-2xl overflow-hidden w-full max-w-[362px] sm:max-w-[400px] mx-auto lg:mx-0 flex-shrink-0"
+                style={{
+                  height: '462.5px',
+                  background: '#1a1a1a',
+                }}
+              >
+                <Image
+                  src="/images/hero-profile.png"
+                  alt="Jitendra Kumar"
+                  fill
+                  priority
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 1024px) 362px, 400px"
+                />
+              </div>
+            </div>
+
+            {/* Right column: Shifted further left in between DEVELOPER DESIGNER CREATOR heading and first column */}
+            <div className="flex flex-col justify-start w-full lg:-ml-28 xl:-ml-40 lg:pr-0 xl:pr-4">
+              {/* Heading aligned with image's top — comes from ground up (0s to 0.75s) */}
+              <motion.h3
+                custom={0}
+                variants={groundUp}
+                initial="hidden"
+                animate={aboutInView ? 'visible' : 'hidden'}
+                style={{
+                  fontSize: 'clamp(1.5rem, 2.2vw, 32px)',
+                  fontWeight: 500,
+                  color: 'rgb(209, 209, 199)',
+                  letterSpacing: '-0.02em',
+                  lineHeight: '1.3',
+                }}
+              >
+                I&apos;m a software engineer driven by a passion for turning ideas into clean, intuitive digital experiences.
+              </motion.h3>
+
+              {/* Under this heading: About Me on left, paragraph on right with comfortable spacing */}
+              <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-5 sm:gap-8 lg:gap-10 mt-6 lg:mt-8 items-start">
+                {/* Left: About Me label — preloaded and static */}
+                <div className="flex-shrink-0 sm:pt-0.5">
+                  <p
+                    className="tracking-widest uppercase select-none"
+                    style={{
+                      fontFamily: 'Consolas, monospace',
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      color: 'rgb(162, 158, 154)',
+                    }}
+                  >
+                    (ABOUT ME)
+                  </p>
+                </div>
+
+                {/* Right: paragraph matching skill elements font size (text-sm), narrowed */}
+                <div className="space-y-4 max-w-[480px]">
+                  {/* First paragraph — appears after main line has finished appearing (0.75s to 1.50s) */}
+                  <motion.p
+                    custom={0.75}
+                    variants={groundUp}
+                    initial="hidden"
+                    animate={aboutInView ? 'visible' : 'hidden'}
+                    className="leading-relaxed"
+                    style={{
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      color: 'rgb(162, 158, 154)',
+                      lineHeight: '1.45',
+                    }}
+                  >
+                    I&apos;m a full-stack developer focused on building scalable web applications with React, Node.js, Express, and MongoDB. I enjoy creating fast, reliable, and user-friendly products that balance clean architecture with great user experiences.
+                  </motion.p>
+
+                  {/* Second paragraph — appears after first paragraph has finished appearing (1.50s to 2.25s) */}
+                  <motion.p
+                    custom={1.5}
+                    variants={groundUp}
+                    initial="hidden"
+                    animate={aboutInView ? 'visible' : 'hidden'}
+                    className="leading-relaxed"
+                    style={{
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      color: 'rgb(162, 158, 154)',
+                      lineHeight: '1.45',
+                    }}
+                  >
+                    Outside development, I&apos;m passionate about competitive programming and optimization, having solved 850+ problems across major coding platforms with a peak rating of 1608 (CodeChef 3★) and 1287 (Codeforces Pupil). I enjoy turning complex challenges into efficient, scalable solutions.
+                  </motion.p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

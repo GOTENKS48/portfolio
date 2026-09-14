@@ -11,7 +11,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { label: 'HOME', href: '#home' },
-  { label: 'SERVICES', href: '#services' },
+  { label: 'EXPERTISE', href: '#services' },
   { label: 'WORKS', href: '#works' },
   { label: 'ABOUT', href: '#about' },
   { label: 'CONTACT', href: '#contact' },
@@ -21,6 +21,8 @@ const socialLinks = [
   { label: 'LinkedIn', href: socials.linkedin },
   { label: 'Github', href: socials.github },
   { label: 'Leetcode', href: socials.leetcode },
+  { label: 'Codeforces', href: socials.codeforces },
+  { label: 'CodeChef', href: socials.codechef },
 ]
 
 export default function NavOverlay() {
@@ -297,24 +299,23 @@ export default function NavOverlay() {
                       paddingRight: 'clamp(0rem, 3vw, 4rem)',
                     }}
                   >
-                    <nav className="flex flex-col space-y-1 sm:space-y-2">
+                    <nav className="flex flex-col">
                       {navLinks.map((link) => (
                         <div key={link.label}>
                           <button
                             onClick={() => handleLinkClick(link.href)}
-                            className="group relative inline-flex flex-col text-left focus:outline-none cursor-pointer py-0.5"
+                            className="group relative inline-flex flex-col text-left focus:outline-none cursor-pointer"
                             style={{ color: '#e8e8e3' }}
                           >
                             <span
-                              className="block font-black uppercase text-left tracking-tight"
+                              className="block uppercase text-left tracking-tight"
                               style={{
-                                fontFamily:
-                                  "var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                                fontSize: 'clamp(2rem, 3.2vw, 2.75rem)',
-                                lineHeight: 1.15,
+                                fontFamily: 'var(--font-sans)',
+                                fontSize: '72px',
+                                lineHeight: 1.0,
                                 letterSpacing: '-0.025em',
-                                fontWeight: 900,
-                                color: '#e8e8e3',
+                                fontWeight: 700,
+                                color: 'rgb(232,232,227)',
                               }}
                             >
                               {link.label}
@@ -322,7 +323,7 @@ export default function NavOverlay() {
 
                             {/* Thin Cream Underline Expanding Left-to-Right on Hover */}
                             <span
-                              className="block w-full h-[2px] bg-[#e8e8e3] origin-left transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] scale-x-0 group-hover:scale-x-100 mt-1"
+                              className="block w-full h-[2px] bg-[#e8e8e3] origin-left transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] scale-x-0 group-hover:scale-x-100"
                             />
                           </button>
                         </div>
@@ -342,21 +343,30 @@ export default function NavOverlay() {
                     {/* Email Section with Roll Hover */}
                     <div className="flex flex-col gap-1">
                       <span
-                        className="text-[13.75px] uppercase tracking-wider font-mono"
-                        style={{ color: '#8A867A' }}
+                        className="uppercase tracking-wider"
+                        style={{
+                          fontSize: '16px',
+                          fontWeight: 700,
+                          color: 'rgb(162,158,154)',
+                        }}
                       >
                         EMAIL ADDRESS
                       </span>
                       <a
-                        href="mailto:contact@zunedaalim.com"
-                        className="group relative inline-block overflow-hidden text-xs sm:text-sm font-mono focus:outline-none cursor-pointer"
-                        style={{ color: '#e8e8e3' }}
+                        href="mailto:jeetu.singh4824@gmail.com"
+                        className="group relative inline-block overflow-hidden focus:outline-none cursor-pointer"
+                        style={{
+                          fontFamily: 'Consolas, monospace',
+                          fontSize: '16px',
+                          fontWeight: 500,
+                          color: 'rgb(232,232,227)',
+                        }}
                       >
                         <span className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
-                          contact@zunedaalim.com
+                          jeetu.singh4824@gmail.com
                         </span>
-                        <span className="absolute top-0 left-0 block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full group-hover:translate-y-0 text-[#e8e8e3]">
-                          contact@zunedaalim.com
+                        <span className="absolute top-0 left-0 block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full group-hover:translate-y-0" style={{ color: 'rgb(232,232,227)' }}>
+                          jeetu.singh4824@gmail.com
                         </span>
                       </a>
                     </div>
@@ -369,13 +379,17 @@ export default function NavOverlay() {
                           href={s.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group relative inline-block overflow-hidden text-xs sm:text-sm font-mono focus:outline-none cursor-pointer"
-                          style={{ color: '#e8e8e3' }}
+                          className="group relative inline-block overflow-hidden focus:outline-none cursor-pointer"
+                          style={{
+                            fontSize: '16px',
+                            fontWeight: 400,
+                            color: 'rgb(232,232,227)',
+                          }}
                         >
                           <span className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
                             {s.label}
                           </span>
-                          <span className="absolute top-0 left-0 block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full group-hover:translate-y-0 text-[#e8e8e3]">
+                          <span className="absolute top-0 left-0 block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-full group-hover:translate-y-0" style={{ color: 'rgb(232,232,227)' }}>
                             {s.label}
                           </span>
                         </a>

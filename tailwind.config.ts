@@ -26,8 +26,8 @@ const config: Config = {
         'text-dim': '#888888',
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
+        sans: ['var(--font-sans)', 'Geist', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'Geist Mono', 'monospace'],
       },
       transitionDuration: {
         '150': '150ms',

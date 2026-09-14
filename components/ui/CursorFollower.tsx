@@ -152,7 +152,7 @@ export function CursorFollowerElement({
               fontSize="16"
               fontWeight="800"
               letterSpacing="0.08em"
-              fontFamily="var(--font-sans), 'Inter', system-ui, sans-serif"
+              fontFamily="var(--font-sans)"
             >
               {label}
             </text>
@@ -182,7 +182,7 @@ export function CursorFollowerElement({
           fontSize="16"
           fontWeight="800"
           letterSpacing="0.08em"
-          fontFamily="var(--font-sans), 'Inter', system-ui, sans-serif"
+          fontFamily="var(--font-sans)"
         >
           {label}
         </text>

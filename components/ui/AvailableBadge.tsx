@@ -19,7 +19,7 @@ export default function AvailableBadge() {
         fontSize: 'clamp(1.8rem, 4vw, 3.5rem)',
         color: '#1a1a1a',
         letterSpacing: '-0.04em',
-        fontFamily: 'Inter, system-ui, sans-serif',
+        fontFamily: 'var(--font-sans)',
       }}
     >
       {label || "JUN'26"}

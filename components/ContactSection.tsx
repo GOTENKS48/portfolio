@@ -14,7 +14,7 @@ const fadeUp = {
 
 const menuLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
+  { label: 'Expertise', href: '#services' },
   { label: 'Works', href: '#works' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -24,6 +24,8 @@ const socialLinks = [
   { label: 'LinkedIn', href: 'https://linkedin.com/in/jitendra' },
   { label: 'Github', href: 'https://github.com/jitendra' },
   { label: 'LeetCode', href: 'https://leetcode.com/jitendra' },
+  { label: 'Codeforces', href: 'https://codeforces.com/profile/jitendra' },
+  { label: 'CodeChef', href: 'https://www.codechef.com/users/jitendra' },
 ]
 
 export default function ContactSection() {
@@ -100,11 +102,12 @@ export default function ContactSection() {
             variants={fadeUp}
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
-            className="font-black uppercase text-center"
+            className="uppercase text-center"
             style={{
-              fontSize: 'clamp(2.8rem, 9vw, 9.5rem)',
+              fontSize: 'clamp(2.8rem, 10vw, 144px)',
+              fontWeight: 600,
               letterSpacing: '-0.04em',
-              color: '#f1f0ed',
+              color: 'rgb(209, 209, 199)',
               lineHeight: '0.88',
             }}
           >
@@ -127,13 +130,18 @@ export default function ContactSection() {
               }}
             >
               <p
-                className="text-center font-medium mb-8"
-                style={{ color: '#f1f0ed', letterSpacing: '-0.01em' }}
+                className="text-center mb-8"
+                style={{
+                  fontSize: 'clamp(1.5rem, 2.5vw, 32px)',
+                  fontWeight: 500,
+                  color: 'rgb(232, 232, 227)',
+                  letterSpacing: '-0.01em',
+                }}
               >
-                Have a project in mind?
+                Wanna hire me?
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Name input */}
                 <input
                   type="text"
@@ -141,8 +149,11 @@ export default function ContactSection() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full px-4 py-3.5 rounded-xl text-sm font-mono outline-none t-150"
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150"
                   style={{
+                    fontFamily: 'Consolas, monospace',
+                    fontSize: '25px',
+                    fontWeight: 400,
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     color: '#f1f0ed',
@@ -156,8 +167,11 @@ export default function ContactSection() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
-                  className="w-full px-4 py-3.5 rounded-xl text-sm font-mono outline-none t-150"
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150"
                   style={{
+                    fontFamily: 'Consolas, monospace',
+                    fontSize: '25px',
+                    fontWeight: 400,
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     color: '#f1f0ed',
@@ -166,13 +180,16 @@ export default function ContactSection() {
                   onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.1)')}
                 />
                 <textarea
-                  placeholder="Tell me about your project"
+                  placeholder="Your message"
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   required
-                  rows={4}
-                  className="w-full px-4 py-3.5 rounded-xl text-sm font-mono outline-none t-150 resize-none"
+                  rows={3}
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150 resize-none"
                   style={{
+                    fontFamily: 'Consolas, monospace',
+                    fontSize: '25px',
+                    fontWeight: 400,
                     background: 'rgba(255,255,255,0.06)',
                     border: '1px solid rgba(255,255,255,0.1)',
                     color: '#f1f0ed',
@@ -184,50 +201,27 @@ export default function ContactSection() {
                 <button
                   type="submit"
                   disabled={status !== 'idle'}
-                  className="group relative w-full py-4 rounded-xl font-mono text-sm font-bold uppercase cursor-pointer overflow-hidden select-none transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  className="w-full py-4 rounded-xl font-mono uppercase cursor-pointer select-none transition-colors duration-300 hover:!bg-white"
                   style={{
-                    background: '#f1f0ed',
-                    color: '#0d0d0d',
+                    background: '#e8e8e3',
+                    color: 'rgb(0, 0, 0)',
+                    fontSize: '16px',
+                    fontWeight: 600,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.18)',
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#ffffff')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#e8e8e3')}
                 >
-                  {/* Fluid liquid dark fill expanding smoothly from bottom */}
                   <span
-                    className="absolute inset-0 bg-[#161614] rounded-xl transform origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-y-100"
-                    aria-hidden="true"
-                  />
-
-                  {/* Refined warm stone accent border on hover */}
-                  <span
-                    className="absolute inset-0 rounded-xl border border-transparent transition-colors duration-500 group-hover:border-[#8E8B82]/50 pointer-events-none z-10"
-                    aria-hidden="true"
-                  />
-
-                  {/* Gentle ambient light shimmer passing across */}
-                  <span
-                    className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/15 to-transparent -skew-x-12 -translate-x-full transition-transform duration-700 ease-out group-hover:translate-x-[320%] pointer-events-none z-20"
-                    aria-hidden="true"
-                  />
-
-                  {/* Content: steady text with smooth color inversion, tracking expansion, and sliding arrow */}
-                  <span className="relative z-30 flex items-center justify-center gap-2.5 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] tracking-wider group-hover:tracking-[0.18em] group-hover:text-[#f1f0ed]">
+                    className="flex items-center justify-center tracking-wider"
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: 600,
+                      color: 'rgb(0, 0, 0)',
+                    }}
+                  >
                     {status === 'idle' ? (
-                      <>
-                        <span>Get a quote</span>
-                        <svg
-                          className="w-4 h-4 transform transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2.2}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                          />
-                        </svg>
-                      </>
+                      <span>Submit</span>
                     ) : status === 'sending' ? (
                       'Sending...'
                     ) : (
@@ -258,15 +252,17 @@ export default function ContactSection() {
             {/* Left: Menu — underline increases till Socials */}
             <div className="w-full max-w-[250px] md:max-w-none md:pr-10">
               <h4
-                className="font-bold text-sm mb-4 pb-3"
+                className="mb-4 pb-3"
                 style={{
-                  color: '#141414',
+                  fontSize: '20px',
+                  fontWeight: 700,
+                  color: 'rgb(57, 54, 50)',
                   borderBottom: '1px solid rgba(20, 20, 20, 0.15)',
                 }}
               >
                 Menu
               </h4>
-              <ul className="space-y-2.5 max-w-[250px]">
+              <ul className="space-y-0.5 max-w-[250px]">
                 {menuLinks.map((link) => (
                   <li key={link.label}>
                     <a
@@ -277,10 +273,15 @@ export default function ContactSection() {
                           .querySelector(link.href)
                           ?.scrollIntoView({ behavior: 'smooth' })
                       }}
-                      className="group relative inline-block text-sm font-medium"
-                      style={{ color: '#6B645C' }}
+                      className="group relative inline-block"
+                      style={{
+                        fontSize: '20px',
+                        fontWeight: 400,
+                        color: 'rgb(107, 100, 92)',
+                        lineHeight: 1.25,
+                      }}
                     >
-                      <span className="relative block overflow-hidden leading-normal">
+                      <span className="relative block overflow-hidden leading-tight">
                         {/* Scroll up on hover */}
                         <span className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
                           {link.label}
@@ -299,25 +300,32 @@ export default function ContactSection() {
             {/* Middle: Socials — starting point is in the middle of the contact card */}
             <div className="w-full max-w-[250px]">
               <h4
-                className="font-bold text-sm mb-4 pb-3"
+                className="mb-4 pb-3"
                 style={{
-                  color: '#141414',
+                  fontSize: '20px',
+                  fontWeight: 700,
+                  color: 'rgb(57, 54, 50)',
                   borderBottom: '1px solid rgba(20, 20, 20, 0.15)',
                 }}
               >
                 Socials
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-0.5">
                 {socialLinks.map((s) => (
                   <li key={s.label}>
                     <a
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative inline-block text-sm font-medium"
-                      style={{ color: '#6B645C' }}
+                      className="group relative inline-block"
+                      style={{
+                        fontSize: '20px',
+                        fontWeight: 400,
+                        color: 'rgb(107, 100, 92)',
+                        lineHeight: 1.25,
+                      }}
                     >
-                      <span className="relative block overflow-hidden leading-normal">
+                      <span className="relative block overflow-hidden leading-tight">
                         {/* Scroll up on hover */}
                         <span className="block transition-transform duration-[350ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
                           {s.label}
@@ -340,16 +348,24 @@ export default function ContactSection() {
             <div className="hidden md:block" aria-hidden="true" />
 
             {/* In between at the bottom: Local Time — stacked on top of actual time */}
-            <div className="flex flex-col items-center justify-center gap-0.5 text-center font-mono order-1 md:order-2">
+            <div className="flex flex-col items-center justify-center gap-1 text-center order-1 md:order-2">
               <span
-                className="text-[12.5px] uppercase tracking-wider"
-                style={{ color: 'rgba(20, 20, 20, 0.5)' }}
+                className="uppercase tracking-wider"
+                style={{
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  color: 'rgb(57, 54, 50)',
+                }}
               >
                 LOCAL TIME
               </span>
               <span
-                className="text-xs font-medium"
-                style={{ color: 'rgba(20, 20, 20, 0.8)' }}
+                style={{
+                  fontFamily: 'Consolas, monospace',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: 'rgb(107, 100, 92)',
+                }}
               >
                 {mounted && timeStr ? timeStr : '11:21:32 PM'} IST
               </span>

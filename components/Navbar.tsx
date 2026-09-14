@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'fra
 import NavOverlay from './NavOverlay'
 
 const navLinks = [
-  { label: 'Services', href: '#services' },
+  { label: 'Expertise', href: '#services' },
   { label: 'Works', href: '#works' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -82,11 +82,12 @@ export default function Navbar({ isScrolled = false, showHamburger = false, trig
             initial="hidden"
             animate={triggerReveal ? 'visible' : 'hidden'}
             style={{
-              fontFamily: "var(--font-mono)",
+              fontFamily: 'var(--font-sans)',
+              fontStyle: 'normal',
               fontSize: 'clamp(0.8rem, min(1.15vw, 2.4vh), 1rem)',
-              fontWeight: 500,
-              color: '#6B645C',
-              letterSpacing: '-0.02em',
+              fontWeight: 400,
+              color: 'rgb(107, 100, 92)',
+              letterSpacing: 'normal',
               cursor: 'default',
               display: 'inline-block',
             }}
@@ -103,7 +104,14 @@ export default function Navbar({ isScrolled = false, showHamburger = false, trig
           >
             <nav
               className="flex items-center"
-              style={{ gap: 'clamp(1.25rem, 2.2vw, 2.75rem)' }}
+              style={{
+                gap: 'clamp(0.5rem, 0.8vw, 1rem)',
+                fontFamily: 'var(--font-sans)',
+                fontStyle: 'normal',
+                fontWeight: 400,
+                color: 'rgb(107, 100, 92)',
+                letterSpacing: 'normal',
+              }}
             >
               {navLinks.map((link) => (
                 <button
@@ -111,11 +119,12 @@ export default function Navbar({ isScrolled = false, showHamburger = false, trig
                   onClick={() => scrollTo(link.href)}
                   className="group relative cursor-pointer"
                   style={{
-                    fontFamily: "var(--font-mono)",
+                    fontFamily: 'var(--font-sans)',
+                    fontStyle: 'normal',
                     fontSize: 'clamp(0.8rem, min(1.15vw, 2.4vh), 1rem)',
-                    fontWeight: 500,
-                    color: '#6B645C',
-                    letterSpacing: '-0.02em',
+                    fontWeight: 400,
+                    color: 'rgb(107, 100, 92)',
+                    letterSpacing: 'normal',
                     background: 'none',
                     border: 'none',
                     padding: 0,
