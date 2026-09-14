@@ -83,10 +83,10 @@ export default function ContactSection() {
       <div
         className="rounded-md sm:rounded-lg overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #181818 0%, #0d0d0d 50%, #141414 100%)',
+          background: 'linear-gradient(180deg, #080807 0%, #393632 100%)',
           paddingLeft: 'clamp(1rem, 3vw, 2.5rem)',
           paddingRight: 'clamp(1rem, 3vw, 2.5rem)',
-          border: '1px solid rgba(255, 255, 255, 0.09)',
+          border: '1px solid rgba(255, 255, 255, 0.06)',
         }}
       >
         <div
@@ -120,13 +120,14 @@ export default function ContactSection() {
             variants={fadeUp}
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
-            className="mt-14 max-w-lg mx-auto"
+            className="mt-14 max-w-md mx-auto"
           >
             <div
               className="rounded-2xl p-8"
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.10)',
+                boxShadow: '0 2px 8px rgba(8,8,7,0.15), 0 6px 20px rgba(8,8,7,0.12), 0 16px 48px rgba(8,8,7,0.1), 0 32px 80px rgba(8,8,7,0.08)',
               }}
             >
               <p
@@ -149,13 +150,13 @@ export default function ContactSection() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full px-5 py-3 rounded-xl outline-none t-150"
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150 contact-input"
                   style={{
                     fontFamily: 'Consolas, monospace',
                     fontSize: '25px',
                     fontWeight: 400,
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.12)',
                     color: '#f1f0ed',
                   }}
                   onFocus={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.3)')}
@@ -167,13 +168,13 @@ export default function ContactSection() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
-                  className="w-full px-5 py-3 rounded-xl outline-none t-150"
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150 contact-input"
                   style={{
                     fontFamily: 'Consolas, monospace',
                     fontSize: '25px',
                     fontWeight: 400,
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.12)',
                     color: '#f1f0ed',
                   }}
                   onFocus={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.3)')}
@@ -185,13 +186,13 @@ export default function ContactSection() {
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   required
                   rows={3}
-                  className="w-full px-5 py-3 rounded-xl outline-none t-150 resize-none"
+                  className="w-full px-5 py-3 rounded-xl outline-none t-150 resize-none contact-input"
                   style={{
                     fontFamily: 'Consolas, monospace',
                     fontSize: '25px',
                     fontWeight: 400,
-                    background: 'rgba(255,255,255,0.06)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.12)',
                     color: '#f1f0ed',
                   }}
                   onFocus={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.3)')}

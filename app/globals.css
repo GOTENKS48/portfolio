@@ -358,16 +358,19 @@ body {
     grid-template-rows: 1fr;
     align-items: end;
   }
+
   .hero-left {
     align-self: end;
     justify-self: start;
     order: 0;
   }
+
   .hero-center {
     align-self: end;
     justify-self: center;
     order: 0;
   }
+
   .hero-right {
     align-self: end;
     justify-self: end;
@@ -450,4 +453,9 @@ html.is-restoring-scroll .preloader-curtain {
 html {
   scrollbar-width: auto;
   scrollbar-color: #b0b0b0 #3a3a3a;
+}
+
+/* ─── Contact form placeholder styling ──────── */
+.contact-input::placeholder {
+  color: rgba(200, 196, 188, 0.45);
 }
