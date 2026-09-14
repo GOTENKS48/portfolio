@@ -119,7 +119,8 @@ export default function Home() {
   }, [vh, servicesY])
 
   return (
-    <main>
+    <main className="relative">
+      <div id="home" className="absolute top-0 left-0 w-full h-px pointer-events-none" aria-hidden="true" />
       <SmoothScroll />
       {!isPreloaderComplete && (
         <Preloader

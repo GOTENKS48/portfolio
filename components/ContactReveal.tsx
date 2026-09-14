@@ -112,6 +112,7 @@ export default function ContactReveal({ children }: ContactRevealProps) {
   return (
     <div
       ref={containerRef}
+      data-contact-reveal
       className="relative w-full"
       style={{
         zIndex: 10,

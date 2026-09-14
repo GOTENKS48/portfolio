@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { socials } from '@/lib/data'
+import { scrollToSection } from '@/lib/scroll'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -329,9 +330,7 @@ export default function ContactSection() {
                       href={link.href}
                       onClick={(e) => {
                         e.preventDefault()
-                        document
-                          .querySelector(link.href)
-                          ?.scrollIntoView({ behavior: 'smooth' })
+                        scrollToSection(link.href)
                       }}
                       className="group relative inline-block"
                       style={{

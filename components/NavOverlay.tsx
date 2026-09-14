@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { socials } from '@/lib/data'
+import { scrollToSection } from '@/lib/scroll'
 
 interface NavLink {
   label: string
@@ -145,17 +146,10 @@ export default function NavOverlay() {
     const lenis = (window as any).__lenis
     if (lenis) {
       lenis.start()
-      setTimeout(() => {
-        lenis.scrollTo(href, { duration: 1.2 })
-      }, 450)
-    } else {
-      setTimeout(() => {
-        const target = document.querySelector(href)
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' })
-        }
-      }, 450)
     }
+    setTimeout(() => {
+      scrollToSection(href)
+    }, 450)
   }
 
   // Determine if the toggle button should be rendered in visible scale state

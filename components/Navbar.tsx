@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 import NavOverlay from './NavOverlay'
+import { scrollToSection } from '@/lib/scroll'
 
 const navLinks = [
   { label: 'Expertise', href: '#services' },
@@ -55,7 +56,7 @@ export default function Navbar({ isScrolled = false, showHamburger = false, trig
   )
 
   const scrollTo = (href: string) => {
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    scrollToSection(href)
   }
 
   return (

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
 import Image from 'next/image'
+import { scrollToSection } from '@/lib/scroll'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -402,7 +403,7 @@ export default function HeroSection({ triggerReveal = false, isScrolled = false 
                         href="#contact"
                         onClick={(e) => {
                           e.preventDefault()
-                          document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+                          scrollToSection('#contact')
                         }}
                         onMouseEnter={() => {
                           if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current)
