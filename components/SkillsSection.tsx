@@ -398,8 +398,8 @@ export default function SkillsSection() {
                 }}
               >
                 <Image
-                  src="/images/hero-profile.png"
-                  alt="Jitendra Kumar"
+                  src="/images/about-profile.png?v=computer"
+                  alt="Developer workspace"
                   fill
                   priority
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
