@@ -2,12 +2,15 @@ export function scrollToSection(href: string) {
   if (typeof window === 'undefined') return
 
   const lenis = (window as any).__lenis
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const duration = prefersReducedMotion ? 0 : 1.2
 
   if (href === '#home') {
     if (lenis) {
-      lenis.scrollTo(0, { duration: 1.2 })
+      lenis.scrollTo(0, { duration, immediate: prefersReducedMotion })
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     }
     return
   }
@@ -26,18 +29,18 @@ export function scrollToSection(href: string) {
       const targetY = revealContainer.offsetTop + overlap
 
       if (lenis) {
-        lenis.scrollTo(targetY, { duration: 1.2 })
+        lenis.scrollTo(targetY, { duration, immediate: prefersReducedMotion })
       } else {
-        window.scrollTo({ top: targetY, behavior: 'smooth' })
+        window.scrollTo({ top: targetY, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
       }
       return
     }
 
     if (contactSection) {
       if (lenis) {
-        lenis.scrollTo(contactSection, { duration: 1.2 })
+        lenis.scrollTo(contactSection, { duration, immediate: prefersReducedMotion })
       } else {
-        contactSection.scrollIntoView({ behavior: 'smooth' })
+        contactSection.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
       }
       return
     }
@@ -46,9 +49,9 @@ export function scrollToSection(href: string) {
   const target = document.querySelector(href) as HTMLElement | null
   if (target) {
     if (lenis) {
-      lenis.scrollTo(target, { duration: 1.2 })
+      lenis.scrollTo(target, { duration, immediate: prefersReducedMotion })
     } else {
-      target.scrollIntoView({ behavior: 'smooth' })
+      target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
     }
   }
 }

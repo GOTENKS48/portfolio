@@ -18,15 +18,20 @@ export default function SmoothScroll() {
 
     const savedY = parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10)
 
-    // 1. Initialize Lenis smooth scroll
+    // Check accessibility preference: prefers-reduced-motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let prefersReducedMotion = mediaQuery.matches
+
+    // 1. Initialize Lenis smooth scroll with luxurious glass-like inertia
     const lenis = new Lenis({
-      duration: 0.8,
+      duration: prefersReducedMotion ? 0 : 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple/Google-like exponential ease
       orientation: 'vertical',
       gestureOrientation: 'vertical',
-      smoothWheel: true,
+      smoothWheel: !prefersReducedMotion,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
+      autoResize: true,
     })
 
     ;(window as any).__lenis = lenis
@@ -59,8 +64,23 @@ export default function SmoothScroll() {
     window.addEventListener('scroll', saveScroll, { passive: true })
     window.addEventListener('beforeunload', saveScroll)
 
-    // 7. Clean up on unmount
+    // 7. Respect dynamic accessibility settings (prefers-reduced-motion)
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotion = e.matches
+      if (prefersReducedMotion) {
+        lenis.options.duration = 0
+        lenis.options.smoothWheel = false
+      } else {
+        lenis.options.duration = 1.2
+        lenis.options.smoothWheel = true
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleMotionChange)
+
+    // 8. Clean up on unmount
     return () => {
+      mediaQuery.removeEventListener('change', handleMotionChange)
       window.removeEventListener('scroll', saveScroll)
       window.removeEventListener('beforeunload', saveScroll)
       lenis.destroy()
