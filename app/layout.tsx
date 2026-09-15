@@ -3,9 +3,9 @@ import 'lenis/dist/lenis.css'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Jitendra Kumar — Full-Stack Developer & UI Engineer',
+  title: 'Jitendra Portfolio',
   description:
-    'Portfolio of Jitendra Kumar — a full-stack engineer specializing in scalable web applications, real-time data pipelines, and precision UI/UX. Available for freelance and full-time opportunities.',
+    'Portfolio of Jitendra — a software engineer specializing in scalable web applications, real-time systems, and precision UI/UX.',
   keywords: [
     'Full-Stack Developer',
     'React',
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     'Software Engineer India',
     'Portfolio',
   ],
-  authors: [{ name: 'Jitendra Kumar' }],
+  authors: [{ name: 'Jitendra' }],
   openGraph: {
-    title: 'Jitendra Kumar — Full-Stack Developer',
+    title: 'Jitendra Portfolio',
     description: 'Software engineer building fast, scalable, and beautiful web products.',
     type: 'website',
   },
