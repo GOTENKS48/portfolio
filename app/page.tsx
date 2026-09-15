@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useMotionValue, useTransform } from 'framer-motion'
 import Preloader from '@/components/Preloader'
 import Navbar from '@/components/Navbar'
 import HeroSection from '@/components/HeroSection'
@@ -53,70 +52,19 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // ─── Velocity-based glass inertia for "What I Do" (Hero transition only) ─────
-  const servicesY = useMotionValue(0)
-  const servicesTransform = useTransform(
-    servicesY,
-    (v) => (Math.abs(v) < 0.05 ? 'none' : `translate3d(0, ${v}px, 0)`)
-  )
-
+  // When preloader completes, refresh ScrollTrigger so all layout measurements are accurate
   useEffect(() => {
-    if (vh === 0) return
-
-    const FRICTION = 0.88
-    const INJECTION = 0.06
-    const DRIFT_PULL = 0.06
-    const REST = 0.1
-
-    const savedScroll = typeof window !== 'undefined' ? parseInt(sessionStorage.getItem('portfolio_scroll_y') || '0', 10) : 0
-    const initialSY = window.scrollY || savedScroll
-    const initialY = initialSY >= vh ? 0 : Math.max(0, Math.min(187.5, 187.5 * (1 - initialSY / vh)))
-    servicesY.set(initialY)
-
-    let y = initialY
-    let vel = 0
-    let prevSY = initialSY
-    let animId: number
-
-    const loop = () => {
-      const sy = window.scrollY
-      const scrollDelta = sy - prevSY
-      prevSY = sy
-
-      if (sy >= vh) {
-        // Once past hero, clamp firmly to 0 so sticky cards never rebound or jitter
-        if (y !== 0 || vel !== 0) {
-          y = 0
-          vel = 0
-          servicesY.set(0)
+    if (isPreloaderComplete) {
+      const timer = setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          const st = (window as any).ScrollTrigger
+          if (st) st.refresh()
+          window.dispatchEvent(new Event('scroll'))
         }
-      } else {
-        // Natural target: 187.5px when hero fills viewport, 0 when hero scrolled past
-        const progress = Math.min(1, Math.max(0, sy / vh))
-        const targetY = 187.5 * (1 - progress)
-
-        // Inject velocity only while transitioning through hero
-        vel += (-scrollDelta * (187.5 / vh)) * INJECTION
-        vel *= FRICTION
-        y += vel
-        y += (targetY - y) * DRIFT_PULL
-
-        if (Math.abs(targetY - y) < REST && Math.abs(vel) < REST) {
-          y = targetY
-          vel = 0
-        }
-
-        // Clamp y between 0 and 187.5 — guarantees no negative undershoot (rebounding)
-        y = Math.max(0, Math.min(187.5, y))
-        servicesY.set(Math.round(y * 100) / 100)
-      }
-
-      animId = requestAnimationFrame(loop)
+      }, 250)
+      return () => clearTimeout(timer)
     }
-
-    animId = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(animId)
-  }, [vh, servicesY])
+  }, [isPreloaderComplete])
 
   return (
     <main className="relative">
@@ -138,11 +86,7 @@ export default function Home() {
         isScrolled={isScrolled}
       />
 
-      <ServicesSection style={{
-        transform: servicesTransform,
-        willChange: 'transform',
-        backfaceVisibility: 'hidden',
-      }} />
+      <ServicesSection />
 
       {/* WorksSection contains GSAP scroll pinning, observed independently */}
       <WorksSection />

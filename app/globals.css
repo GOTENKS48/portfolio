@@ -390,8 +390,9 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
+/* Prevent overflow: clip when stopped so sticky elements (digit reel, service cards) maintain their exact positions without visual distortion or layout shifts */
 .lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
+  /* preserved for sticky elements */
 }
 
 .lenis [data-lenis-prevent],

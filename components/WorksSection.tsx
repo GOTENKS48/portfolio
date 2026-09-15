@@ -143,13 +143,15 @@ export default function WorksSection() {
 
     const rollDigitTo = (targetIdx: number, immediate: boolean = false) => {
       if (targetIdx === currentIdx && !immediate) return
-      currentIdx = targetIdx
 
       const digitEl = unitDigitBoxRef.current?.querySelector('span')
       const digitH =
-        digitEl?.clientHeight || unitDigitBoxRef.current?.clientHeight || 0
+        digitEl?.getBoundingClientRect().height ||
+        unitDigitBoxRef.current?.getBoundingClientRect().height ||
+        unitDigitBoxRef.current?.clientHeight || 0
 
       if (digitH > 0 && unitDigitReelRef.current) {
+        currentIdx = targetIdx
         if (immediate) {
           gsap.set(unitDigitReelRef.current, {
             y: -targetIdx * digitH,
@@ -158,8 +160,8 @@ export default function WorksSection() {
         } else {
           gsap.to(unitDigitReelRef.current, {
             y: -targetIdx * digitH,
-            duration: 1.35,
-            ease: 'power3.out',
+            duration: 0.8,
+            ease: 'power2.out',
             force3D: true,
             overwrite: 'auto',
           })
@@ -169,7 +171,7 @@ export default function WorksSection() {
 
     // Accurate scroll threshold tracker: determines which project card has crossed the trigger line
     const getActiveProjectIdx = () => {
-      const viewportTrigger = window.innerHeight * 0.52
+      const viewportTrigger = window.innerHeight * 0.55
       let activeIdx = 0
 
       projectCardRefs.current.forEach((el, idx) => {
@@ -190,6 +192,14 @@ export default function WorksSection() {
 
     // Explicitly set the initial digit immediately on mount according to restored scroll position
     rollDigitTo(getActiveProjectIdx(), true)
+
+    // Direct scroll listeners ensure numbers 01, 02, 03, 04, 05 update on every scroll frame
+    window.addEventListener('scroll', updateActiveProject, { passive: true })
+
+    const lenis = (window as any).__lenis
+    if (lenis) {
+      lenis.on('scroll', updateActiveProject)
+    }
 
     const ctx = gsap.context(() => {
       // Main tracker trigger across the works section
@@ -213,6 +223,10 @@ export default function WorksSection() {
     window.addEventListener('resize', onResize, { passive: true })
 
     return () => {
+      window.removeEventListener('scroll', updateActiveProject)
+      if (lenis) {
+        lenis.off('scroll', updateActiveProject)
+      }
       ctx.revert()
       window.removeEventListener('resize', onResize)
     }
@@ -463,22 +477,40 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         display: 'flex',
       }}
     >
-      {/* Image Container — No upper or lower clipping borders */}
+      {/* Project Image Container with Overlay Video Demo Rectangle (No Hover Zoom, No Shadows/Borders) */}
       <div
-        className="relative w-full rounded-2xl overflow-hidden shadow-2xl"
+        className="relative w-full rounded-2xl overflow-hidden"
         style={{
           height: 'clamp(750px, 75vw, 1150px)',
           background: '#1a1a1a',
         }}
       >
+        {/* Base Background Image */}
         <Image
           src={project.image}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover"
           sizes="(max-width: 768px) 90vw, 1050px"
           priority={project.id <= 2}
         />
+
+        {/* Video Demo Rectangle Floating Over the Image — Clean, No Shadows/Borders */}
+        {project.video && (
+          <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-6 z-10 pointer-events-none">
+            <div className="relative w-[96%] sm:w-[92%] lg:w-[90%] max-w-[960px] aspect-[16/10.2] rounded-xl overflow-hidden bg-black flex items-center justify-center">
+              <video
+                src={project.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Info row — Observed with useInView so text scrambles when entering viewport */}

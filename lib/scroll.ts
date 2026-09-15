@@ -46,12 +46,28 @@ export function scrollToSection(href: string) {
     }
   }
 
+  const triggerPostScrollSync = () => {
+    if (typeof window !== 'undefined') {
+      const st = (window as any).ScrollTrigger
+      if (st) st.refresh()
+      window.dispatchEvent(new Event('scroll'))
+    }
+  }
+
   const target = document.querySelector(href) as HTMLElement | null
   if (target) {
     if (lenis) {
-      lenis.scrollTo(target, { duration, immediate: prefersReducedMotion })
+      lenis.scrollTo(target, {
+        duration,
+        immediate: prefersReducedMotion,
+        onComplete: () => {
+          triggerPostScrollSync()
+        },
+      })
+      setTimeout(triggerPostScrollSync, (duration * 1000) + 50)
     } else {
       target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+      setTimeout(triggerPostScrollSync, (duration * 1000) + 50)
     }
   }
 }

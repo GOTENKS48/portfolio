@@ -150,7 +150,7 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
       style={{
         background: '#080807',
         borderRadius: '2rem 2rem 0 0',
-        marginTop: 'clamp(-7.5rem, -12vh, -6rem)',
+        marginTop: '0',
         position: 'relative',
         zIndex: 20,
         ...style,
@@ -279,10 +279,10 @@ export default function ServicesSection({ style }: ServicesSectionProps) {
               key={service.number}
               className="sticky"
               style={{
-                top: `calc(clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem))`,
+                top: `calc(clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.5rem, 8.5vh, 6.25rem))`,
                 zIndex: i + 1,
                 background: '#080807',
-                minHeight: `calc(100vh - (clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.25rem, 7.5vh, 5.25rem)) + clamp(8rem, 20vh, 15rem))`,
+                minHeight: `calc(100vh - (clamp(8.5rem, 15vh, 11rem) + ${i} * clamp(4.5rem, 8.5vh, 6.25rem)) + clamp(8rem, 20vh, 15rem))`,
               }}
             >
               <ServiceItem service={service} index={i} />
@@ -308,7 +308,7 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
         background: '#080807',
       }}
     >
-      {/* Number — absolutely positioned left */}
+      {/* Number — absolutely positioned left on md+, static on mobile */}
       <div className="md:absolute md:left-0 md:top-2 flex-shrink-0 mb-3 md:mb-0">
         <span
           className="block"
@@ -325,8 +325,8 @@ function ServiceItem({ service, index }: { service: typeof services[0]; index: n
         </span>
       </div>
 
-      {/* Content — centered */}
-      <div style={{ marginLeft: 'clamp(16rem, 38vw, 36rem)' }}>
+      {/* Content — responsive margin left */}
+      <div className="ml-0 md:ml-[clamp(14rem,32vw,36rem)]">
         <h3
           className="mb-6"
           style={{

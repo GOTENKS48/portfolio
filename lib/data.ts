@@ -10,6 +10,7 @@ export interface Project {
   longDescription: string
   tech: string[]
   image: string
+  video?: string
   link: string
 }
 
@@ -17,80 +18,72 @@ export const projects: Project[] = [
   {
     id: 1,
     number: '01',
-    title: 'Bharat Sentinel',
-    subtitle: 'Threat Intelligence Platform',
-    category: 'FULL-STACK',
-    year: '2024',
-    description: 'Real-time cyber threat intelligence platform with microservices architecture and Kafka-powered data pipelines.',
-    longDescription: `A production-grade real-time threat intelligence platform built on a distributed microservices architecture. 
-    Ingests and processes millions of threat events per day through an Apache Kafka pipeline with custom stream processors. 
-    Backend built on Node.js microservices, containerized with Docker, orchestrated via Kubernetes. 
-    Features a React dashboard with live WebSocket data feeds, geolocation threat maps, and ML-based anomaly detection.`,
-    tech: ['Node.js', 'Apache Kafka', 'React', 'PostgreSQL', 'Docker', 'Redis', 'Python', 'WebSocket'],
-    image: '/images/bharat-sentinel.png',
-    link: 'https://example.com/project-1',
+    title: 'Ray Tracer in C++',
+    subtitle: 'Computer Graphics & Rendering Engine',
+    category: 'C++ / GRAPHICS',
+    year: '2026',
+    description: 'A custom ray tracing engine built in modern C++ with realistic lighting, shadows, reflections, and camera models.',
+    longDescription: `A high-performance physically-based ray tracer implemented in modern C++. Features recursive ray-surface intersections, diffuse and specular reflection shading models, antialiasing, depth of field camera simulations, and multi-threaded rendering optimizations.`,
+    tech: ['C++', 'Graphics Programming', 'Multithreading', 'Linear Algebra', 'CMake'],
+    image: '/images/project-1.jpg',
+    video: 'https://res.cloudinary.com/buydgbex/video/upload/v1789498582/Recording_2026-09-15_232605.mp4',
+    link: 'https://github.com/GOTENKS48/RayTracer',
   },
   {
     id: 2,
     number: '02',
-    title: 'Smart Building',
-    subtitle: 'IoT Data Processing System',
-    category: 'IOT + BACKEND',
+    title: 'Blogging Website',
+    subtitle: 'Full-Stack Publishing Platform',
+    category: 'MERN + REST APIs',
     year: '2024',
-    description: 'IoT sensor integration platform with MQTT broker, real-time analytics dashboard, and automated control systems.',
-    longDescription: `End-to-end IoT platform for intelligent building management. Integrates hundreds of physical sensors via 
-    MQTT broker (Mosquitto) into a centralized Node.js data ingestion layer. Time-series data stored in InfluxDB with 
-    Grafana dashboards for real-time visualization. Machine learning models predict energy consumption and trigger automated 
-    HVAC/lighting adjustments, reducing energy usage by 34%.`,
-    tech: ['Node.js', 'MQTT', 'InfluxDB', 'Grafana', 'Python', 'React', 'PostgreSQL', 'Docker'],
-    image: '/images/smart-building.png',
-    link: 'https://example.com/project-2',
+    description: 'Dynamic blogging and article publishing platform featuring rich content editing, user authentication, and responsive reading experience.',
+    longDescription: `A comprehensive full-stack publishing web application built with modern web technologies. Supports rich markdown authoring, secure user authentication and session management, tagging, responsive layout, and robust API endpoints for fast content retrieval.`,
+    tech: ['Node.js', 'Express.js', 'React', 'MongoDB', 'REST APIs', 'TailwindCSS'],
+    image: '/images/project-2.jpg',
+    video: 'https://res.cloudinary.com/buydgbex/video/upload/v1789498789/Recording_2026-09-15_231310_2.mp4',
+    link: 'https://github.com/GOTENKS48/Blog-Website',
   },
   {
     id: 3,
     number: '03',
-    title: 'Portfolio v2',
-    subtitle: 'Personal Design System',
+    title: 'Portfolio',
+    subtitle: 'Personal Interactive Design System',
     category: 'DESIGN + DEV',
     year: '2026',
-    description: 'Premium developer portfolio with scroll-driven animations, clip-path transitions, and cursor-interactive elements.',
-    longDescription: `This portfolio — built as a custom design system from scratch. Features GSAP scroll-pinned horizontal 
-    project carousel, Framer Motion clip-path reveal animations, cursor-tracking interactive elements, and a fully dynamic 
-    design language inspired by high-end agency websites. Zero component library boilerplate.`,
-    tech: ['Next.js', 'Framer Motion', 'GSAP', 'TypeScript', 'TailwindCSS'],
-    image: '/images/portfolio-v2.png',
-    link: 'https://example.com/project-3',
+    description: 'Premium developer portfolio featuring smooth scroll-driven mechanics, GSAP reel animations, and refined typography.',
+    longDescription: `Custom portfolio built from scratch focusing on high-end creative web design. Features GSAP scroll synchronization, letter masking variants, scramble text mechanics, audio interaction feedback, and square demo video presentation.`,
+    tech: ['Next.js', 'TypeScript', 'GSAP', 'Framer Motion', 'TailwindCSS'],
+    image: '/images/project-3.jpg',
+    video: 'https://res.cloudinary.com/buydgbex/video/upload/v1789498533/Desktop_2026.09.15_-_22.08.51.03_2_online-video-cutter.com.mp4',
+    link: 'https://github.com/GOTENKS48/portfolio',
   },
   {
     id: 4,
     number: '04',
-    title: 'Algorithm Visualizer',
-    subtitle: 'Interactive DSA Learning Tool',
-    category: 'EDUCATION',
+    title: 'Heart Disease Prediction',
+    subtitle: 'Machine Learning Diagnostic Tool',
+    category: 'ML / HEALTHCARE',
     year: '2023',
-    description: 'Interactive visualization tool for sorting algorithms, graph traversals, and tree structures with step-by-step walkthroughs.',
-    longDescription: `An interactive web application that visualizes classic computer science algorithms in real-time. 
-    Supports 15+ sorting algorithms with adjustable speed and array size, graph traversals (BFS, DFS, Dijkstra, A*), 
-    binary tree operations, and dynamic programming step-through. Built for CS students and interview preparation.`,
-    tech: ['React', 'TypeScript', 'D3.js', 'Tailwind CSS', 'Framer Motion'],
-    image: '/images/algo-visualizer.png',
-    link: 'https://example.com/project-4',
+    description: 'Predictive health analytics tool utilizing machine learning models to assess heart disease risk from clinical metrics.',
+    longDescription: `An end-to-end healthcare machine learning application trained on cardiovascular patient data. Evaluates multiple classification models (Random Forest, Logistic Regression, XGBoost) to achieve high sensitivity and precision, with an interactive web UI for risk probability scoring.`,
+    tech: ['Python', 'Scikit-Learn', 'Pandas', 'NumPy', 'Flask', 'Machine Learning'],
+    image: '/images/project-4.jpg',
+    video: 'https://res.cloudinary.com/buydgbex/video/upload/v1789498537/Desktop_2026.09.15_-_21.56.23.01_2_online-video-cutter.com.mp4',
+    link: 'https://github.com/GOTENKS48/heart-disease-prediction',
   },
   {
     id: 5,
     number: '05',
-    title: 'Cloud File System',
-    subtitle: 'Distributed Storage Platform',
-    category: 'SYSTEMS',
-    year: '2023',
-    description: 'Distributed file storage system with client-side encryption, chunk-based upload, and redundant replication.',
-    longDescription: `A distributed file storage system implementing core principles of cloud storage at scale. 
-    Features client-side AES-256 encryption before upload, intelligent file chunking for large uploads, 
-    Reed-Solomon erasure coding for data redundancy, and a consistent hashing ring for node distribution. 
-    REST API with S3-compatible interface, CLI client, and React web UI.`,
-    tech: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'Redis', 'Docker', 'AWS S3'],
-    image: '/images/cloud-fs.png',
-    link: 'https://example.com/project-5',
+    title: 'Weather App',
+    subtitle: 'Live Meteorological Forecast Web App',
+    category: 'Python + API Integration',
+    year: '2022',
+    description: 'Responsive weather application providing real-time forecasts, atmospheric conditions, and location-based meteorological metrics.',
+    longDescription: `Interactive weather application consuming live third-party meteorological APIs to deliver temperature, wind speed, humidity, and multi-day forecasting with dynamic condition-based background visual styling.`,
+    tech: ['Python', 'Weather API', 'REST APIs', 'HTML5', 'CSS3'],
+    image: '/images/project-5.jpg',
+    video: 'https://res.cloudinary.com/buydgbex/video/upload/v1789498535/Recording_2026-09-15_224056.mp4',
+    link: 'https://github.com/GOTENKS48/Weather_app',
   },
 ]
 
